@@ -170,6 +170,7 @@ void shop_menu(Crop crops[], Inventory inventory[], int *coins) {
     } else {
         printf("Insufficient coins! You need %d more coins.\n", total_cost - *coins);
     }
+    
 }
 
 // Function to plant crops on a plot
@@ -230,6 +231,7 @@ void plant_crop(Plot *plot, Inventory inventory[], int size) {
     inventory[choice].quantity -= 10;
 
     printf("\nSuccessfully planted 10 %s seeds on this plot.\n", plot->crop.name);
+   
 }
 
 // Function to harvest a specific plot
@@ -386,6 +388,7 @@ int main() {
                         plant_crop(&plots[plot_choice - 1], inventory, MAX_INVENTORY);
                         daily_actions--;
                     }
+                    Sleep(5000);
                     break;
                 }
                 case 2: { // Water Crops
@@ -398,6 +401,7 @@ int main() {
                             
                             printf("\nWatered plot %d (%s). Remaining water needed: %d\n", 
                                 i + 1, plots[i].crop.name, plots[i].crop.water_needed);
+                            Sleep(5000);
                             watered = 1;
                         }
                     }
@@ -416,12 +420,14 @@ int main() {
                         harvest_plot(&plots[harvest_choice - 1], &coins);
                         daily_actions--;
                     }
+                    Sleep(5000);
                     break;
                 }
                 case 4: { // Visit Shop
                     printf("\n--- Visiting Shop ---\n");
                     shop_menu(crops, inventory, &coins);
                     daily_actions--;
+                    Sleep(5000);
                     break;
                 }
                 case 5: { // Wait a Day
@@ -436,6 +442,7 @@ int main() {
                             if (plots[i].time_remaining <= 0) {
                                 printf("Crop on plot %d (%s) is ready to harvest!\n", 
                                     i + 1, plots[i].crop.name);
+                                Sleep(5000);
                             }
                         }
                     }
