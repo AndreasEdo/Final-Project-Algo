@@ -324,7 +324,21 @@ int main() {
 
     printf("Welcome to the Advanced Farming Game!\n");
     clear_screen();
-
+    
+    system("cls");
+	gotoxy(30,5);
+    printf("%d Days in the season remaining!!\n", season_days);
+    Sleep(1000);
+    gotoxy(38,6);
+    printf("Loading the day");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
+    printf(".");
     // Main game loop
     while (season_days > 0) {
         int daily_actions = MAX_ACTIONS_PER_DAY; // Reset daily actions
