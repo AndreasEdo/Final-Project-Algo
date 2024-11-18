@@ -12,6 +12,7 @@
 #define MAX_SEEDS_PER_CROP 100
 #define SEASON_DAYS 90
 #define HIGH_SCORE_FILE "highscore.txt"
+#include "Animasinyiram.c"
 
 // Structure to represent a crop
 typedef struct {
@@ -284,13 +285,15 @@ void save_high_score(int high_score) {
 }
 
 int main() {
+	
+	
     // Initialize crops
     Crop crops[MAX_INVENTORY] = {
         {"Wheat", 10, 15, 5, 20},
         {"Corn", 15, 20, 7, 25},
         {"Rice", 20, 25, 10, 30}
     };
-
+	
     // Initialize inventory
     Inventory inventory[MAX_INVENTORY];
     for (int i = 0; i < MAX_INVENTORY; i++) {
@@ -318,6 +321,7 @@ int main() {
     int high_score = load_high_score();
 
     printf("Welcome to the Advanced Farming Game!\n");
+    clear_screen();
 
     // Main game loop
     while (season_days > 0) {
@@ -325,14 +329,17 @@ int main() {
 
         while (daily_actions > 0 && season_days > 0) {
         	
-            clear_screen();
+            
             
             if(season_days<90 && daily_actions==10){//iki gawe animasi ganti hari 
+            	gotoxy(30,5);
             	printf("%d Days in the season remaining!!\n", season_days+1);
             	Sleep(2000);
             	system("cls");
+            	gotoxy(30,5);
             	printf("%d Days in the season remaining!!\n\n", season_days);
             	Sleep(1000);
+            	gotoxy(38,6);
             	printf("The next day");
             	Sleep(1000);
             	printf(".");
@@ -382,12 +389,14 @@ int main() {
                     break;
                 }
                 case 2: { // Water Crops
-                    printf("\n--- Watering Crops ---\n");
+                	system("cls");
+                    animationwatering();
                     int watered = 0;
                     for (int i = 0; i < MAX_PLOTS; i++) {
                         if (plots[i].is_planted && plots[i].crop.water_needed > 0) {
                             plots[i].crop.water_needed--;
-                            printf("Watered plot %d (%s). Remaining water needed: %d\n", 
+                            
+                            printf("\nWatered plot %d (%s). Remaining water needed: %d\n", 
                                 i + 1, plots[i].crop.name, plots[i].crop.water_needed);
                             watered = 1;
                         }

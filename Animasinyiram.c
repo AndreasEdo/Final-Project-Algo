@@ -84,12 +84,7 @@ void wateringcanLiftedframe2() {
     printf("|      -");
 }
 
-void clearArea() {
-    for (int y = 1; y <= 17; y++) {
-        gotoxy(22, y);
-        printf("                         "); // Clear a wide area for frames
-    }
-}
+
 
 void waterFrame1() {
     gotoxy(25, 13); printf("|   |");
@@ -133,68 +128,64 @@ void watering(){
 }
 
 void animationwatering() {
-    clearArea();
+    system("cls");
     wateringcan();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering");
     Sleep(1000);
 
-    clearArea();
+    system("cls");
     wateringcanLiftedframe1();
     waterFrame1();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering.");
     Sleep(500);
 
-    clearArea();
+    system("cls");
     wateringcanLiftedframe2();
     waterFrame2();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering.");
     Sleep(500);
 
-    clearArea();
+    system("cls");
     wateringcanLiftedframe1();
     waterFrame3();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering..");
     Sleep(500);
 	
-	clearArea();
+	system("cls");
     wateringcanLiftedframe2();
     waterFrame1();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering...");
     Sleep(500);
     
-    clearArea();
+    system("cls");
     wateringcanLiftedframe2();
     waterFrame2();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering.");
     Sleep(500);
     
     
-    clearArea();
+    system("cls");
     wateringcanLiftedframe2();
     waterFrame4();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering..");
     Sleep(500);
 
-    clearArea();
+    system("cls");
     wateringcanLiftedframe1();
     waterFrame5();
-    gotoxy(29,18);
+    gotoxy(30,18);
     printf("Watering...");
     Sleep(500);
 
     
 }
 
-int main() {
-    animationwatering();
-    getch();
-    return 0;
-}
+
 
