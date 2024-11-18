@@ -417,7 +417,7 @@ int main() {
                 }
                 case 5: { // Wait a Day
                     printf("\n--- Waiting a Day ---\n");
-                    season_days--;
+                    
                     daily_actions = 0; // End all remaining actions for the day
 
                     // Update plots
