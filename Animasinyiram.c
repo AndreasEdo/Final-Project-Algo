@@ -1,171 +1,158 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <conio.h>
-#ifdef _WIN32
-    #include <windows.h>
-#else
-    #include <unistd.h>
-    #define Sleep(x) usleep((x)*1000)
-#endif
 
-void gotoxy(int x, int y) {
-    COORD coord = {x, y};
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
+
+#include "Utilityfunction.h"
+
 
 void wateringcan() {
-    gotoxy(30, 3);
+    gotoxy(50, 3);
     printf("  ___");
-    gotoxy(30, 4);
+    gotoxy(50, 4);
     printf(" |   |");
-    gotoxy(29, 5);
+    gotoxy(49, 5);
     printf(" _|___|_");
-    gotoxy(25, 6);
+    gotoxy(45, 6);
     printf("|   |       |");
-    gotoxy(25, 7);
+    gotoxy(45, 7);
     printf("|---|       |");
-    gotoxy(25, 8);
+    gotoxy(45, 8);
     printf("|---|       |");
-    gotoxy(25, 9);
+    gotoxy(45, 9);
     printf("|   |_______|");
 }
 
 void wateringcanLiftedframe1() {
-    gotoxy(34, 1);
+    gotoxy(54, 1);
     printf("__");
-    gotoxy(31, 2);
+    gotoxy(51, 2);
     printf("__/  \\");
-    gotoxy(30, 3);
+    gotoxy(50, 3);
     printf("/ /    \\");
-    gotoxy(29, 4);
+    gotoxy(49, 4);
     printf("/ /      \\");
-    gotoxy(28, 5);
+    gotoxy(48, 5);
     printf("/ /        \\");
-    gotoxy(27, 6);
+    gotoxy(47, 6);
     printf("/_/          |");
-    gotoxy(29, 7);
+    gotoxy(49, 7);
     printf("\\         /");
-    gotoxy(29, 8);
+    gotoxy(49, 8);
     printf("/\\       /");
-    gotoxy(27, 9);
+    gotoxy(47, 9);
     printf("\\/ /\\     /");
-    gotoxy(26, 10);
+    gotoxy(46, 10);
     printf("| \\/  \\   /");
-    gotoxy(27, 11);
+    gotoxy(47, 11);
     printf("| \\   \\ /");
-    gotoxy(26, 12);
+    gotoxy(46, 12);
     printf("| |     -");
 }
 
 void wateringcanLiftedframe2() {
-    gotoxy(34, 1);
+    gotoxy(54, 1);
     printf("__");
-    gotoxy(31, 2);
+    gotoxy(51, 2);
     printf("__/  \\");
-    gotoxy(30, 3);
+    gotoxy(50,3);
     printf("/ /    \\");
-    gotoxy(29, 4);
+    gotoxy(49, 4);
     printf("/ /      \\");
-    gotoxy(28, 5);
+    gotoxy(48, 5);
     printf("/ /        \\");
-    gotoxy(27, 6);
+    gotoxy(47, 6);
     printf("/_/          |");
-    gotoxy(29, 7);
+    gotoxy(49, 7);
     printf("\\         /");
-    gotoxy(29, 8);
+    gotoxy(49, 8);
     printf("/\\       /");
-    gotoxy(27, 9);
+    gotoxy(47, 9);
     printf("\\/ /\\     /");
-    gotoxy(26, 10);
+    gotoxy(46, 10);
     printf("| \\/  \\   /");
-    gotoxy(27, 11);
+    gotoxy(47, 11);
     printf(" |\\   \\ /");
-    gotoxy(27, 12);
+    gotoxy(47, 12);
     printf("|      -");
 }
 
 
 
 void waterFrame1() {
-    gotoxy(25, 13); printf("|   |");
-    gotoxy(26, 14); printf("|   |");
+    gotoxy(45, 13); printf("|   |");
+    gotoxy(46, 14); printf("|   |");
 }
 
 void waterFrame2() {
-    gotoxy(25, 13); printf("|   |");
-    gotoxy(26, 14); printf("|   |");
-    gotoxy(25, 15); printf("|   |");
-    gotoxy(26, 16); printf("|   |");
+    gotoxy(45, 13); printf("|   |");
+    gotoxy(46, 14); printf("|   |");
+    gotoxy(45, 15); printf("|   |");
+    gotoxy(46, 16); printf("|   |");
 }
 
 void waterFrame3() {
-    gotoxy(25, 13); printf("|   |");
-    gotoxy(27, 14); printf("|   |");
-    gotoxy(26, 15); printf("|   |");
-    gotoxy(27, 16); printf("|   |");
-    gotoxy(26, 17); printf("|   |");
+    gotoxy(45, 13); printf("|   |");
+    gotoxy(47, 14); printf("|   |");
+    gotoxy(46, 15); printf("|   |");
+    gotoxy(47, 16); printf("|   |");
+    gotoxy(46, 17); printf("|   |");
 }
 
 void waterFrame4() {
-    gotoxy(24, 13); printf("|   |");
-    gotoxy(25, 14); printf("|   |");
-    gotoxy(24, 15); printf("|   |");
-    gotoxy(25, 16); printf("|   |");
-    gotoxy(24, 17); printf("|   |");
+    gotoxy(44, 13); printf("|   |");
+    gotoxy(45, 14); printf("|   |");
+    gotoxy(44, 15); printf("|   |");
+    gotoxy(45, 16); printf("|   |");
+    gotoxy(44, 17); printf("|   |");
 }
 
 void waterFrame5() {
-    gotoxy(25, 13); printf("|   |");
-    gotoxy(26, 14); printf("|   |");
-    gotoxy(25, 15); printf("|   |");
-    gotoxy(26, 16); printf("|   |");
-    gotoxy(25, 17); printf("|   |");
+    gotoxy(45, 13); printf("|   |");
+    gotoxy(46, 14); printf("|   |");
+    gotoxy(45, 15); printf("|   |");
+    gotoxy(46, 16); printf("|   |");
+    gotoxy(45, 17); printf("|   |");
 }
 
-void watering(){
-	gotoxy(28,18);
-	
-}
+
 
 void animationwatering() {
     system("cls");
     wateringcan();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering");
     Sleep(1000);
 
     system("cls");
     wateringcanLiftedframe1();
     waterFrame1();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering.");
     Sleep(500);
 
     system("cls");
     wateringcanLiftedframe2();
     waterFrame2();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering.");
     Sleep(500);
 
     system("cls");
     wateringcanLiftedframe1();
     waterFrame3();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering..");
     Sleep(500);
 	
 	system("cls");
     wateringcanLiftedframe2();
     waterFrame1();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering...");
     Sleep(500);
     
     system("cls");
     wateringcanLiftedframe2();
     waterFrame2();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering.");
     Sleep(500);
     
@@ -173,19 +160,24 @@ void animationwatering() {
     system("cls");
     wateringcanLiftedframe2();
     waterFrame4();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering..");
     Sleep(500);
 
     system("cls");
     wateringcanLiftedframe1();
     waterFrame5();
-    gotoxy(30,18);
+    gotoxy(50,18);
     printf("Watering...");
     Sleep(500);
 
     
 }
+
+
+
+
+
 
 
 

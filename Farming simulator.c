@@ -1,18 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#ifdef _WIN32
-    #include <windows.h>
-#else
-    #include <unistd.h>
-#endif
+#include "Utilityfunction.c"
+#include "Animasinyiram.c"
+#include "Animasinanam.c"
+
 
 #define MAX_PLOTS 5
 #define MAX_INVENTORY 3
 #define MAX_SEEDS_PER_CROP 100
 #define SEASON_DAYS 90
+
 #define HIGH_SCORE_FILE "highscore.txt"
-#include "Animasinyiram.c"
+
 
 // Structure to represent a crop
 typedef struct {
@@ -37,6 +34,8 @@ typedef struct {
     int time_remaining; // Days until harvest
     int fertility; // Extra days added to growth_time if replanting same crop
 } Plot;
+
+
 
 // Function to clear the console with "Press 1 to continue..."
 void clear_screen() {
@@ -210,16 +209,7 @@ void plant_crop(Plot *plot, Inventory inventory[], int size) {
     plot->quantity = 10;
     plot->time_remaining = plot->crop.growth_time;
     
-    printf("Planting.");
-    Sleep(1000);
-    printf(".");
-    Sleep(1000);
-    printf(".");
-    Sleep(1000);
-    printf(".");
-    Sleep(1000);
-    printf(".");
-    Sleep(1000);
+    displaynanam();
     
     // Check for fertility modifier
     if (plot->fertility > 0 && strcmp(plot->crop.name, plot->crop.name) == 0 && plot->fertility < 100) {
@@ -229,8 +219,8 @@ void plant_crop(Plot *plot, Inventory inventory[], int size) {
 
     // Deduct seeds from inventory
     inventory[choice].quantity -= 10;
-
-    printf("\nSuccessfully planted 10 %s seeds on this plot.\n", plot->crop.name);
+	gotoxy(32,15);
+    printf("Successfully planted 10 %s seeds on this plot.\n", plot->crop.name);
    
 }
 
@@ -412,8 +402,8 @@ int main() {
                     for (int i = 0; i < MAX_PLOTS; i++) {
                         if (plots[i].is_planted && plots[i].crop.water_needed > 0) {
                             plots[i].crop.water_needed--;
-                            
-                            printf("\nWatered plot %d (%s). Remaining water needed: %d\n", 
+                            gotoxy(32,20);
+                            printf("Watered plot %d (%s). Remaining water needed: %d\n", 
                                 i + 1, plots[i].crop.name, plots[i].crop.water_needed);
                             Sleep(5000);
                             watered = 1;
