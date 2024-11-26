@@ -1,6 +1,7 @@
 #include "Utilityfunction.c"
 #include "Animasinyiram.c"
 #include "Animasinanam.c"
+#include "Animasishop.c"
 
 #include "Highscore.c"
 #include "Displaymenu.c"
@@ -16,18 +17,18 @@
 int main() {
 	
 	
-    // Initialize crops
+
     Crop crops[MAX_INVENTORY] = {
         {"Wheat", 10, 15, 5, 20},
         {"Corn", 15, 20, 7, 25},
         {"Rice", 20, 25, 10, 30}
     };
 	
-    // Initialize inventory
+
     Inventory inventory[MAX_INVENTORY];
     for (int i = 0; i < MAX_INVENTORY; i++) {
         inventory[i].crop = crops[i];
-        inventory[i].quantity = 0; // Start with 0 seeds
+        inventory[i].quantity = 0; 
     }
 
     // Initialize plots
@@ -36,17 +37,16 @@ int main() {
         plots[i].is_planted = 0;
         plots[i].quantity = 0;
         plots[i].time_remaining = 0;
-        plots[i].fertility = 100; // Start with full fertility
+        plots[i].fertility = 100; 
     }
 
-    // Starting coins
+
     int coins = 1000;
 	
 	int MAX_ACTIONS_PER_DAY=10;
-    // Season days
+
     int season_days = SEASON_DAYS;
 
-    // Load high score
     int high_score = load_high_score();
 
     displayintro();
@@ -66,7 +66,7 @@ int main() {
     printf(".");
     Sleep(1000);
     printf(".");
-    // Main game loop
+
     while (season_days > 0) {
         int daily_actions = MAX_ACTIONS_PER_DAY; // Reset daily actions
 
@@ -74,7 +74,7 @@ int main() {
         	
             
             
-            if(season_days<90 && daily_actions==10){//iki gawe animasi ganti hari 
+            if(season_days<90 && daily_actions==10){//Animasi change day
             	gotoxy(30,5);
             	printf("%d Days in the season remaining!!\n", season_days+1);
             	Sleep(2000);
@@ -103,11 +103,9 @@ int main() {
             printf("Actions remaining today: %d\n", daily_actions);
             printf("=======================\n");
 
-            // Display farm and inventory
             display_farm(plots, MAX_PLOTS);
             display_inventory(inventory, MAX_INVENTORY);
 
-            // Display actions
             printf("\n--- Actions ---\n");
             printf("1. Plant Crops\n");
             printf("2. Water Crops\n");
@@ -116,10 +114,8 @@ int main() {
             printf("5. Wait a Day (Ends Actions)\n");
             printf("----------------\n");
 
-            // Get user action
             int action = get_valid_input("Enter your choice (1-5): ", 1, 5);
 
-            // Perform action
             switch (action) {
                 case 1: { // Plant Crops
                     printf("\n--- Planting Crops ---\n");
@@ -164,11 +160,12 @@ int main() {
                     Sleep(5000);
                     break;
                 }
-                case 4: { // Visit Shop
-                    printf("\n--- Visiting Shop ---\n");
+                case 4: { //shop
+                    shopanimation();
                     shop_menu(crops, inventory, &coins);
                     daily_actions--;
-                    Sleep(5000);
+                    Sleep(1000);
+                    goinghomeanimation();
                     break;
                 }
                 case 5: { // Wait a Day
@@ -176,7 +173,6 @@ int main() {
                     
                     daily_actions = 0; // End all remaining actions for the day
 
-                    // Update plots
                     for (int i = 0; i < MAX_PLOTS; i++) {
                         if (plots[i].is_planted && plots[i].time_remaining > 0) {
                             plots[i].time_remaining--;
@@ -203,7 +199,7 @@ int main() {
             clear_screen();
             season_days--;
 
-            // Update plots
+
             for (int i = 0; i < MAX_PLOTS; i++) {
                 if (plots[i].is_planted && plots[i].time_remaining > 0) {
                     plots[i].time_remaining--;
@@ -216,7 +212,7 @@ int main() {
         }
     }
 
-    // Season ended
+
     printf("=== Season Over ===\n");
     printf("Total coins earned: %d\n", coins);
     if (coins > high_score) {

@@ -25,43 +25,58 @@ void display_inventory(Inventory inventory[], int size) {
     printf("-----------------------\n");
 }
 
-// Function to handle the shop
+
 void shop_menu(Crop crops[], Inventory inventory[], int *coins) {
-    printf("\n--- Shop ---\n");
-    for (int i = 0; i < MAX_INVENTORY; i++) {
-        printf("%d. %s | Cost: %d coins | Growth Time: %d days | Sell Price: %d coins\n", 
-            i + 1, crops[i].name, crops[i].buy_cost, crops[i].growth_time, crops[i].sell_price);
-        printf("   * Bulk Discount: Buy in multiples of 5 for %d coins each\n", crops[i].buy_cost - 5);
-    }
-    printf("----------------\n");
-    
-    int choice = get_valid_input("Choose a crop to buy (1-3) or 0 to exit: ", 0, MAX_INVENTORY);
-    if (choice == 0) {
-        printf("Exiting shop.\n");
-        return;
-    }
-    choice--; // Adjust for 0-based indexing
+    while (1) { 
+        printf("\n--- Shop ---\n");
+        for (int i = 0; i < MAX_INVENTORY; i++) {
+            printf("%d. %s | Cost: %d coins | Growth Time: %d days | Sell Price: %d coins\n", 
+                i + 1, crops[i].name, crops[i].buy_cost, crops[i].growth_time, crops[i].sell_price);
+            printf("   * Bulk Discount: Buy in multiples of 5 for %d coins each\n", crops[i].buy_cost - 5);
+        }
+        
+        printf("----------------\n");
+        
+        int choice = get_valid_input("Choose a crop to buy (1-3) or 0 to exit: ", 0, MAX_INVENTORY);
+        if (choice == 0) {
+            printf("Exiting shop.\n");
+            break; 
+        }
+        choice--; // Adjust for 0-based indexing
 
-    printf("Enter quantity to buy (max %d per crop): ", MAX_SEEDS_PER_CROP - inventory[choice].quantity);
-    int quantity = get_valid_input("", 1, MAX_SEEDS_PER_CROP - inventory[choice].quantity);
+        printf("Enter quantity to buy (max %d per crop or 0 to cancel): ", MAX_SEEDS_PER_CROP - inventory[choice].quantity);
+        int quantity = get_valid_input("", 0, MAX_SEEDS_PER_CROP - inventory[choice].quantity);
 
-    // Calculate bulk discount
-    int cost_per_seed = crops[choice].buy_cost;
-    if (quantity % 5 == 0) {
-        cost_per_seed -= 5;
-        printf("Bulk discount applied! New cost per seed: %d coins\n", cost_per_seed);
-    }
+        if (quantity == 0) {
+            printf("Purchase canceled. Returning to shop menu.\n");
+            system("cls");
+            continue; // Return to the shop menu
+        }
 
-    int total_cost = cost_per_seed * quantity;
-    if (*coins >= total_cost) {
-        *coins -= total_cost;
-        inventory[choice].quantity += quantity;
-        printf("Successfully bought %d %s seeds for %d coins!\n", quantity, crops[choice].name, total_cost);
-    } else {
-        printf("Insufficient coins! You need %d more coins.\n", total_cost - *coins);
+        // Calculate bulk discount
+        int cost_per_seed = crops[choice].buy_cost;
+        if (quantity % 5 == 0) {
+            cost_per_seed -= 5;
+            system("cls");
+            printf("Bulk discount applied! New cost per seed: %d coins\n", cost_per_seed);
+            Sleep(1000);
+        }
+
+        int total_cost = cost_per_seed * quantity;
+        if (*coins >= total_cost) {
+            *coins -= total_cost;
+            inventory[choice].quantity += quantity;
+            system("cls");
+            printf("Successfully bought %d %s seeds for %d coins!\n", quantity, crops[choice].name, total_cost);
+            Sleep(1000);
+        } else {
+        	system("cls");
+            printf("Insufficient coins! You need %d more coins.\n", total_cost - *coins);
+            Sleep(1000);
+        }
     }
-    
 }
+
 
 void displayintro() {
     int console_width = 100; 
@@ -69,10 +84,10 @@ void displayintro() {
 
     char line[] = "--------------------------------------";
     gotoxy(40, 2);
-    for (int i = 0; i < strlen(line); i++) {
-        printf("%c", line[i]);
-        Sleep(100);
-    }
+    printf("%s", line);
+    gotoxy(40, 5);
+    printf("%s", line);
+
 
     gotoxy(45, 3);
     char Welcome[] = "Welcome to Farming Simulator!";
@@ -88,11 +103,7 @@ void displayintro() {
         Sleep(100);
     }
 
-    gotoxy(40, 5);
-    for (int i = 0; i < strlen(line); i++) {
-        printf("%c", line[i]);
-        Sleep(100);
-    }
+
 }
 
 
