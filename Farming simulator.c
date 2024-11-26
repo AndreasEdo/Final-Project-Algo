@@ -49,14 +49,14 @@ int main() {
     // Load high score
     int high_score = load_high_score();
 
-    printf("Welcome to the Advanced Farming Game!\n");
-    clear_screen();
+    displayintro();
+    press_enter_to_continue();
     
     system("cls");
-	gotoxy(30,5);
+	gotoxy(44,5);
     printf("%d Days in the season remaining!!\n", season_days);
     Sleep(1000);
-    gotoxy(38,6);
+    gotoxy(52,6);
     printf("Loading the day");
     Sleep(1000);
     printf(".");

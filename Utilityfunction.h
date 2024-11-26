@@ -4,10 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
-#include <stdlib.h>
 #ifdef _WIN32
     #include <windows.h>
+    #include <conio.h>
 #else
     #include <unistd.h>
     #define Sleep(x) usleep((x)*1000)
@@ -19,7 +18,6 @@
 #define SEASON_DAYS 90
 
 #define HIGH_SCORE_FILE "highscore.txt"
-
 
 // Structure to represent a crop
 typedef struct {
@@ -45,11 +43,11 @@ typedef struct {
     int fertility; // Extra days added to growth_time if replanting same crop
 } Plot;
 
-
+// Function declarations
 void gotoxy(int x, int y);
+void press_enter_to_continue();
 void clear_screen();
 int get_valid_input(const char *prompt, int min, int max);
 
-
-#endif 
+#endif
 

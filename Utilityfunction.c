@@ -7,7 +7,12 @@ void gotoxy(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     
 }
-
+void press_enter_to_continue() {
+    
+    while (getchar() != '\n') {
+        
+    }
+}
 
 // Function to clear the console with "Press 1 to continue..."
 void clear_screen() {

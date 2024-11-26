@@ -63,3 +63,37 @@ void shop_menu(Crop crops[], Inventory inventory[], int *coins) {
     
 }
 
+void displayintro() {
+    int console_width = 100; 
+    
+
+    char line[] = "--------------------------------------";
+    gotoxy(40, 2);
+    for (int i = 0; i < strlen(line); i++) {
+        printf("%c", line[i]);
+        Sleep(100);
+    }
+
+    gotoxy(45, 3);
+    char Welcome[] = "Welcome to Farming Simulator!";
+    for (int i = 0; i < strlen(Welcome); i++) {
+        printf("%c", Welcome[i]);
+        Sleep(100);
+    }
+
+    gotoxy(46, 4);
+    char press1[] = "Press Enter to continue...";
+    for (int i = 0; i < strlen(press1); i++) {
+        printf("%c", press1[i]);
+        Sleep(100);
+    }
+
+    gotoxy(40, 5);
+    for (int i = 0; i < strlen(line); i++) {
+        printf("%c", line[i]);
+        Sleep(100);
+    }
+}
+
+
+
