@@ -1,7 +1,6 @@
 Name,Rarity,Quantity
-Wheat,Common,1
 Raisins,Uncommon,1
-Chili,Uncommon,2
 Durian,Epic,1
 Cabbage,Common,1
 Broccoli,Common,1
+Radish,Uncommon,1
