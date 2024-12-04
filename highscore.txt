@@ -1,1 +1,11 @@
-9999
+Name,Score
+Bambang,10000
+Cak,50000
+Telo,20000
+Lontong,3000
+Pamungkas,2000
+Satrio,20000
+Dummy,1000
+Test Dummy,1500
+zzzz,3500
+aaaa,6000

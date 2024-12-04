@@ -36,13 +36,15 @@ void shop_menu(Crop crops[], Inventory inventory[], int *coins) {
         }
         
         printf("----------------\n");
-        
+        printf("Choose a crop to buy (1-3) or 0 to exit:");
+
+
         int choice = get_valid_input("Choose a crop to buy (1-3) or 0 to exit: ", 0, MAX_INVENTORY);
         if (choice == 0) {
             printf("Exiting shop.\n");
             break; 
         }
-        choice--; // Adjust for 0-based indexing
+        choice--; 
 
         printf("Enter quantity to buy (max %d per crop or 0 to cancel): ", MAX_SEEDS_PER_CROP - inventory[choice].quantity);
         int quantity = get_valid_input("", 0, MAX_SEEDS_PER_CROP - inventory[choice].quantity);
@@ -77,7 +79,7 @@ void shop_menu(Crop crops[], Inventory inventory[], int *coins) {
     }
 }
 
-
+//display intro
 void displayintro() {
     int console_width = 100; 
     
@@ -104,6 +106,37 @@ void displayintro() {
     }
 
 
+}
+
+void displaystory(){
+	char line[] = "-------------------------------------------------------------------";
+    gotoxy(34, 2);
+    printf("%s", line);
+    gotoxy(34, 8);
+    printf("%s", line);
+    
+	gotoxy(36, 4);
+    char line1[] = "In a lush valley once thriving with agricultural prosperity ";
+    for (int i = 0; i < strlen(line1); i++) {
+        printf("%c", line1[i]);
+        Sleep(100);
+    }
+
+    gotoxy(36, 5);
+    char line2[] = "you [name], got chalenged to gain as much gold as possible";
+    for (int i = 0; i < strlen(line2); i++) {
+        printf("%c", line2[i]);
+        Sleep(100);
+    }
+    
+    gotoxy(42, 6);
+    char line3[] = "do you think you have what it takes?";
+    for (int i = 0; i < strlen(line3); i++) {
+        printf("%c", line3[i]);
+        Sleep(100);
+    }
+    
+    
 }
 
 

@@ -1,110 +1,174 @@
-#include "Utilityfunction.c"
-#include "Animasinyiram.c"
-#include "Animasinanam.c"
-#include "Animasishop.c"
+#include "struct.c"
+#include "randomizer.c"
 
-#include "Highscore.c"
-#include "Displaymenu.c"
-#include "Plantandharvest.c"
+void shop_menu(int *coins, const char *filename, const char *inventory) {
+    while (1) {
+        // Transfer all the file to struct
+        FILE *file = fopen(filename, "r+");
+        if (file == NULL) {
+            perror("Error opening file");
+            return;
+        }
 
+        Crop crops[MAX_RECORDS];
+        int count = 0;
+        char line[MAX_LINE_LENGTH];
 
+        fgets(line, sizeof(line), file); // Skip the header line
 
+        while (fgets(line, sizeof(line), file)) {
+            sscanf(line, "%d,%19[^,],%9[^,],%9s", 
+                   &crops[count].index, crops[count].name, 
+                   crops[count].rarity, crops[count].status);
+            count++;
+        }
+        fclose(file);
 
+        // Shop menu
+        int option;
+        int recordNumber;
+        while (1) {
+            printf("---WELCOME TO THE SHOP---\n");
+            printf("1. Common Box (50 Coin)\n");
+            printf("2. Rare Box (100 Coin)\n");
+            printf("3. Epic Box (200 Coin)\n");
+            printf("0. Exit Shop\n");
+            printf("Choose an Option: ");
+            scanf("%d", &option);
+            if (option == 1) {
+                if (*coins >= 50) {
+                    recordNumber = commonbox();
+                    *coins -= 50; // Deduct coins correctly
+                    break;
+                }
+                printf("You don't have enough money!!\n");
+            } else if (option == 2) {
+                if (*coins >= 100) {
+                    recordNumber = rarebox();
+                    *coins -= 100; // Deduct coins correctly
+                    break;
+                }
+                printf("You don't have enough money!!\n");
+            } else if (option == 3) {
+                if (*coins >= 200) {
+                    recordNumber = epicbox();
+                    *coins -= 200; // Deduct coins correctly
+                    break;
+                }
+                printf("You don't have enough money!!\n");
+            } else if (option == 0) {
+                printf("Exiting shop\n");
+                Sleep(5000);
+                system("cls");
+                return; // Exit the shop menu
+            }
+            printf("Invalid Input\n");
+        }
 
+        // Rewrite the crop's status
+        Crop *crop = &crops[recordNumber - 1];
+        strcpy(crop->status, "Obtained");
 
+        printf("\nRecord updated successfully. YOU GOT %s (%s)\n", crop->name, crop->rarity);
+
+       
+        file = fopen(filename, "w");
+        if (file == NULL) {
+            perror("Error opening file for writing");
+            return;
+        }
+
+        fprintf(file, "Index,Name,Rarity,Status\n");
+        for (int i = 0; i < MAX_RECORDS; i++) {
+            fprintf(file, "%d,%s,%s,%s\n", 
+                    crops[i].index, crops[i].name, 
+                    crops[i].rarity, crops[i].status);
+        }
+        fclose(file);
+
+       
+        file = fopen(inventory, "r+");
+        if (file == NULL) {
+            perror("Error opening file");
+            return;
+        }
+
+        Inventory invencrop[MAX_RECORDS] = {0};
+        count = 0;
+
+        fgets(line, sizeof(line), file); 
+
+        while (fgets(line, sizeof(line), file)) {
+            sscanf(line, "%19[^,],%9[^,],%d", 
+                   invencrop[count].crop.name, 
+                   invencrop[count].crop.rarity, 
+                   &invencrop[count].quantity);
+            count++;
+        }
+        fclose(file);
+
+        for (int i = 0; i < count; i++) {
+            if (strcmp(invencrop[i].crop.name, crop->name) == 0) {
+                invencrop[i].quantity += 1; 
+                break;
+            } else if (i == count - 1) {
+     
+                strcpy(invencrop[count].crop.name, crop->name);
+                strcpy(invencrop[count].crop.rarity, crop->rarity);
+                invencrop[count].quantity = 1;
+                count++;
+                break;
+            }
+        }
+
+        file = fopen(inventory, "w");
+        if (file == NULL) {
+            perror("Error opening file for writing");
+            return;
+        }
+
+        fprintf(file, "Name,Rarity,Quantity\n");
+        for (int i = 0; i < count; i++) {
+            if (invencrop[i].quantity > 0) {
+                fprintf(file, "%s,%s,%d\n", 
+                        invencrop[i].crop.name, invencrop[i].crop.rarity, invencrop[i].quantity);
+            }
+        }
+        fclose(file);
+
+        printf("\n--- Updated Inventory ---\n");
+        for (int i = 0; i < count; i++) {
+            printf("%s (%s) - Quantity: %d\n", 
+                   invencrop[i].crop.name, 
+                   invencrop[i].crop.rarity, 
+                   invencrop[i].quantity);
+        }
+        printf("-------------------------\n");
+
+        Sleep(5000); 
+    }
+}
 
 
 int main() {
-	
-	
 
-    Crop crops[MAX_INVENTORY] = {
-        {"Wheat", 10, 15, 5, 20},
-        {"Corn", 15, 20, 7, 25},
-        {"Rice", 20, 25, 10, 30}
-    };
-	
-
-    Inventory inventory[MAX_INVENTORY];
-    for (int i = 0; i < MAX_INVENTORY; i++) {
-        inventory[i].crop = crops[i];
-        inventory[i].quantity = 0; 
-    }
-
-    // Initialize plots
-    Plot plots[MAX_PLOTS];
-    for (int i = 0; i < MAX_PLOTS; i++) {
-        plots[i].is_planted = 0;
-        plots[i].quantity = 0;
-        plots[i].time_remaining = 0;
-        plots[i].fertility = 100; 
-    }
-
-
+  
     int coins = 1000;
 	
-	int MAX_ACTIONS_PER_DAY=10;
 
-    int season_days = SEASON_DAYS;
+    printf("Welcome to the Advanced Farming Game!\n");
 
-    int high_score = load_high_score();
-
-    displayintro();
-    press_enter_to_continue();
-    
-    system("cls");
-	gotoxy(44,5);
-    printf("%d Days in the season remaining!!\n", season_days);
-    Sleep(1000);
-    gotoxy(52,6);
-    printf("Loading the day");
-    Sleep(1000);
-    printf(".");
-    Sleep(1000);
-    printf(".");
-    Sleep(1000);
-    printf(".");
-    Sleep(1000);
-    printf(".");
-
-    while (season_days > 0) {
-        int daily_actions = MAX_ACTIONS_PER_DAY; // Reset daily actions
-
+  	int season_days = SEASON_DAYS;
+    while (season_days > 0) { 
+		int daily_actions = 10;
         while (daily_actions > 0 && season_days > 0) {
         	
-            
-            
-            if(season_days<90 && daily_actions==10){//Animasi change day
-            	gotoxy(30,5);
-            	printf("%d Days in the season remaining!!\n", season_days+1);
-            	Sleep(2000);
-            	system("cls");
-            	gotoxy(30,5);
-            	printf("%d Days in the season remaining!!\n\n", season_days);
-            	Sleep(1000);
-            	gotoxy(38,6);
-            	printf("The next day");
-            	Sleep(1000);
-            	printf(".");
-            	Sleep(1000);
-            	printf(".");
-            	Sleep(1000);
-            	printf(".");
-            	Sleep(1000);
-            	printf(".");
-            	Sleep(1000);
-			}
-			
 			system("cls");
             printf("=== Season Progress ===\n");
             printf("Days remaining: %d\n", season_days);
             printf("Coins: %d\n", coins);
-            printf("High Score: %d coins\n", high_score);
             printf("Actions remaining today: %d\n", daily_actions);
             printf("=======================\n");
-
-            display_farm(plots, MAX_PLOTS);
-            display_inventory(inventory, MAX_INVENTORY);
 
             printf("\n--- Actions ---\n");
             printf("1. Plant Crops\n");
@@ -113,76 +177,41 @@ int main() {
             printf("4. Visit Shop\n");
             printf("5. Wait a Day (Ends Actions)\n");
             printf("----------------\n");
-
-            int action = get_valid_input("Enter your choice (1-5): ", 1, 5);
-
+			
+			
+            int action;
+            while(1){
+            	printf("\nEnter Input(1-5):");
+            	scanf("%d", &action);
+            	if(action >= 1 && action <= 5){
+            		break;
+				}
+				
+				printf("\nInvalid Input!!!");
+			}
+			
             switch (action) {
-                case 1: { // Plant Crops
-                    printf("\n--- Planting Crops ---\n");
-                    display_farm(plots, MAX_PLOTS);
-                    int plot_choice = get_valid_input("Choose a plot to plant (1-5) or 0 to cancel: ", 0, MAX_PLOTS);
-                    if (plot_choice != 0) {
-                        plant_crop(&plots[plot_choice - 1], inventory, MAX_INVENTORY);
-                        daily_actions--;
-                    }
-                    Sleep(5000);
-                    break;
+                case 1: { 
+					break;
                 }
                 case 2: { // Water Crops
-                	system("cls");
-                    animationwatering();
-                    int watered = 0;
-                    for (int i = 0; i < MAX_PLOTS; i++) {
-                        if (plots[i].is_planted && plots[i].crop.water_needed > 0) {
-                            plots[i].crop.water_needed--;
-                            gotoxy(32,20);
-                            printf("Watered plot %d (%s). Remaining water needed: %d\n", 
-                                i + 1, plots[i].crop.name, plots[i].crop.water_needed);
-                            Sleep(5000);
-                            watered = 1;
-                        }
-                    }
-                    if (!watered) {
-                        printf("No crops need watering.\n");
-                    } else {
-                        daily_actions--;
-                    }
-                    break;
+					break;
                 }
                 case 3: { // Harvest Crops
-                    printf("\n--- Harvesting Crops ---\n");
-                    display_farm(plots, MAX_PLOTS);
-                    int harvest_choice = get_valid_input("Choose a plot to harvest (1-5) or 0 to cancel: ", 0, MAX_PLOTS);
-                    if (harvest_choice != 0) {
-                        harvest_plot(&plots[harvest_choice - 1], &coins);
-                        daily_actions--;
-                    }
-                    Sleep(5000);
                     break;
                 }
-                case 4: { //shop
-                    shopanimation();
-                    shop_menu(crops, inventory, &coins);
-                    daily_actions--;
-                    Sleep(1000);
-                    goinghomeanimation();
-                    break;
+                case 4: { // Visit Shop
+    				printf("\n--- Visiting Box Shop ---\n");
+    				shop_menu(&coins, FILENAME, INVENTORY);
+    				daily_actions--;
+    				break;
                 }
                 case 5: { // Wait a Day
                     printf("\n--- Waiting a Day ---\n");
-                    
+
                     daily_actions = 0; // End all remaining actions for the day
 
-                    for (int i = 0; i < MAX_PLOTS; i++) {
-                        if (plots[i].is_planted && plots[i].time_remaining > 0) {
-                            plots[i].time_remaining--;
-                            if (plots[i].time_remaining <= 0) {
-                                printf("Crop on plot %d (%s) is ready to harvest!\n", 
-                                    i + 1, plots[i].crop.name);
-                                Sleep(5000);
-                            }
-                        }
-                    }
+                
                     printf("A day has passed.\n");
                     break;
                 }
@@ -196,32 +225,17 @@ int main() {
 
         if (daily_actions == 0 && season_days > 0) {
             printf("\nYou have used all actions for today. Moving to the next day...\n");
-            clear_screen();
+
             season_days--;
 
-
-            for (int i = 0; i < MAX_PLOTS; i++) {
-                if (plots[i].is_planted && plots[i].time_remaining > 0) {
-                    plots[i].time_remaining--;
-                    if (plots[i].time_remaining <= 0) {
-                        printf("Crop on plot %d (%s) is ready to harvest!\n", 
-                            i + 1, plots[i].crop.name);
-                    }
-                }
-            }
         }
     }
 
-
+    // Season ended
     printf("=== Season Over ===\n");
     printf("Total coins earned: %d\n", coins);
-    if (coins > high_score) {
-        printf("New High Score: %d coins!\n", coins);
-        save_high_score(coins);
-    } else {
-        printf("High Score remains at: %d coins.\n", high_score);
-    }
     printf("===================\n");
+
 
     return 0;
 }

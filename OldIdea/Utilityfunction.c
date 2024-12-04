@@ -1,28 +1,20 @@
 #include "Utilityfunction.h"
 
-
 void gotoxy(int x, int y) {
-   
     COORD coord = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    
-}
-void press_enter_to_continue() {
-    
-    while (getchar() != '\n') {
-        
-    }
 }
 
-// Function to clear the console with "Press 1 to continue..."
+void press_enter_to_continue() {
+    while (getchar() != '\n') { }
+}
+
 void clear_screen() {
     printf("\nEnter 1 to continue...\n");
     int input;
     while (1) {
-        // Read input as a string to handle non-integer inputs
         char buffer[100];
         if (fgets(buffer, sizeof(buffer), stdin)) {
-            // Try to parse input as integer
             if (sscanf(buffer, "%d", &input) == 1) {
                 if (input == 1) {
                     break;
@@ -31,8 +23,6 @@ void clear_screen() {
         }
         printf("Invalid input! Please enter 1 to continue.\n");
     }
-
-    // Clear the console
     #ifdef _WIN32
         system("cls");
     #else
@@ -40,14 +30,12 @@ void clear_screen() {
     #endif
 }
 
-// Function to get valid integer input within a range
 int get_valid_input(const char *prompt, int min, int max) {
     int input;
     char buffer[100];
     while (1) {
         printf("%s", prompt);
         if (fgets(buffer, sizeof(buffer), stdin)) {
-            // Attempt to parse integer
             if (sscanf(buffer, "%d", &input) == 1) {
                 if (input >= min && input <= max) {
                     return input;
@@ -57,10 +45,60 @@ int get_valid_input(const char *prompt, int min, int max) {
             } else {
                 printf("Invalid input! Please enter a valid number.\n");
             }
-        } else {
-            printf("Error reading input! Please try again.\n");
         }
     }
 }
 
+void printMenu(int selectedoption) {
+    const char *menuItems[] = {"Play", "Crops Data"};
+    int menuSize = sizeof(menuItems) / sizeof(menuItems[0]);
+	int y = 8;
+    for (int i = 0; i < menuSize; i++) {
+    	
+        if (i == selectedoption) {
+        	gotoxy(50,y);
+        	y++;
+            printf(" > %s\n", menuItems[i]);  
+        } else {
+        	gotoxy(50,y);
+        	y++;
+            printf("   %s\n", menuItems[i]);
+        }
+    }
+}
+
+int option() {
+    int selectedoption = 0;
+    char key;
+
+    while (1) {
+        system("cls");
+        gotoxy(50,8);
+        printMenu(selectedoption);
+
+        key = getch();
+
+        if (key == -32) {
+            key = getch();
+            if (key == 72) {
+                selectedoption--;
+                if (selectedoption < 0) {
+                    selectedoption = 1;
+                }
+            } else if (key == 80) {
+                selectedoption++;
+                if (selectedoption > 1) {
+                    selectedoption = 0;
+                }
+            }
+        } else if (key == '\r') {
+            return selectedoption + 1;
+        }
+    }
+}
+
+void get_username(char *username) {
+    printf("Enter your username: ");
+    fgets(username, username_length, stdin);
+}
 

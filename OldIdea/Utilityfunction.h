@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #ifdef _WIN32
     #include <windows.h>
     #include <conio.h>
@@ -16,10 +17,18 @@
 #define MAX_INVENTORY 3
 #define MAX_SEEDS_PER_CROP 100
 #define SEASON_DAYS 90
+#define MAX_HIGH_SCORES 10
+#define username_length 50
+
 
 #define HIGH_SCORE_FILE "highscore.txt"
 
-// Structure to represent a crop
+typedef struct {
+    char username[username_length];
+    int score;
+} HighScore;
+
+
 typedef struct {
     char name[20];
     int buy_cost;
@@ -28,26 +37,26 @@ typedef struct {
     int sell_price;
 } Crop;
 
-// Structure to represent inventory for each crop
 typedef struct {
     Crop crop;
-    int quantity; // Number of seeds
+    int quantity;
 } Inventory;
 
-// Structure to represent a plot
 typedef struct {
     int is_planted;
     Crop crop;
-    int quantity; // Number of crops planted (max 10)
-    int time_remaining; // Days until harvest
-    int fertility; // Extra days added to growth_time if replanting same crop
+    int quantity;
+    int time_remaining;
+    int fertility;
 } Plot;
 
-// Function declarations
 void gotoxy(int x, int y);
 void press_enter_to_continue();
 void clear_screen();
 int get_valid_input(const char *prompt, int min, int max);
+void printMenu(int selectedoption);
+int option();
+void get_usernname(char *username);
 
 #endif
 
