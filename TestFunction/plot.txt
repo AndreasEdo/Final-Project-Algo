@@ -1,0 +1,6 @@
+Num,Status,CropName,CropRarity,WaterNeeded,TimeToHarvest
+1,Planted,Wheat,Common,2,3
+2,Planted,Raisins,Uncommon,4,4
+3,NotPlanted,None,None,-1,-1
+4,Planted,Broccoli,Common,2,3
+5,Planted,Cherry,Rare,4,5

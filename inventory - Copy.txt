@@ -1,6 +1,6 @@
 Name,Rarity,Quantity
+Cabbage,Common,1
 GreenBean,Common,1
 MustardGreens,Common,1
 Shallot,Rare,1
 Apple,Epic,1
-Spinach,Common,1
