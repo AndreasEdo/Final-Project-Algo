@@ -58,3 +58,124 @@ int epicbox() {
     }
 }
 
+void tipsrandomizer(){
+	srand(time(NULL));
+	int tips = random(1,5);
+	printf("\n\n");
+	printf("Tips :");
+
+	if(tips == 1){
+		printf("Always type 0 to exit");
+	}else if(tips == 2){
+		printf("Prioritize the highest rarity");
+	}else if(tips == 3){
+		printf("Epic box had the highest chance to obtain legendary crop");
+	}else if(tips == 4){
+		printf("Save some money to buy Epic box");
+	}else if(tips == 5){
+		printf("Remember it's not gambling if it's the only thing you can spend money on");
+	}
+	printf("\n\n");
+}
+
+void wateradderrandomizer(const char *plotFile){
+	plot plotData[5];
+	int count =0;
+	char line[MAX_LINE_LENGTH];
+	FILE *file;
+	file = fopen(plotFile, "r+");
+    if (file == NULL) {
+        perror("Error opening plot file");
+        return;
+    }
+
+
+
+    
+    fgets(line, sizeof(line), file); 
+    while (fgets(line, sizeof(line), file)) {
+        sscanf(line, "%d,%14[^,],%19[^,],%9[^,],%d,%d", 
+               	&plotData[count].number, plotData[count].status, 
+               	plotData[count].plotcrop.name, plotData[count].plotcrop.rarity, 
+               	&plotData[count].water_needed, &plotData[count].time_to_harvest);
+        count++;
+    }
+    fclose(file);
+    
+    for(int i=0;i<5;i++){
+    	if(strcmp(plotData[i].status,"NotPlanted") == 0){
+    		continue;
+		}
+		
+		if(strcmp(plotData[i].plotcrop.rarity, "Common") == 0){
+			if(plotData[i].water_needed == Common.water){
+				continue;
+			}
+		}else if(strcmp(plotData[i].plotcrop.rarity, "Uncommon") == 0){
+			if(plotData[i].water_needed == Uncommon.water){
+				continue;
+			}
+		}else if(strcmp(plotData[i].plotcrop.rarity, "Rare") == 0){
+			if(plotData[i].water_needed == Rare.water){
+				continue;
+			}
+		}else if(strcmp(plotData[i].plotcrop.rarity, "Epic") == 0){
+			if(plotData[i].water_needed == Epic.water){
+				continue;
+			}
+		}else if(strcmp(plotData[i].plotcrop.rarity, "Legendary") == 0){
+			if(plotData[i].water_needed == Legendary.water){
+				continue;
+			}
+		}
+		
+		
+		
+    	srand(time(NULL));
+		int wateradd = random(1,100);
+		if(wateradd > 10){
+			plotData[i].water_needed += 1;
+		}
+	}
+	
+	file = fopen(plotFile, "w");
+    if (file == NULL) {
+       	perror("Error saving plot file");
+        return;
+    }
+
+    fprintf(file, "Num,Status,CropName,CropRarity,WaterNeeded,TimeToHarvest\n");
+    for (int j = 0; j < count; j++) {
+        fprintf(file, "%d,%s,%s,%s,%d,%d\n", plotData[j].number, plotData[j].status, 
+                plotData[j].plotcrop.name, plotData[j].plotcrop.rarity, 
+                plotData[j].water_needed, plotData[j].time_to_harvest);
+    }
+    fclose(file);
+}
+
+void sellrandomizer(int sellcost, int **COINS, int *p){
+	*p=0;
+	srand(time(NULL));
+	int b = random(1,1000);
+	if(b<40){
+		printf("\nThis Crop is contaminated\n");
+		sellcost = sellcost/2;
+		**COINS += sellcost;
+	}else if(b>920){
+		printf("\nGod Damn Best crop I have seen in years\n");
+		sellcost = sellcost*2;
+		**COINS += sellcost;
+	}else if(b>800){
+		printf("\nBring me more of this goodie\n");
+		sellcost = sellcost/2*3;
+		**COINS += sellcost;
+	}else if(b>540){
+		sellcost = sellcost/5*5;
+		printf("\nNice crop you got there\n"); 
+		**COINS += sellcost;
+	}else{
+		**COINS += sellcost;
+	}
+	*p = sellcost;
+}
+

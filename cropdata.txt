@@ -21,11 +21,11 @@ Index,Name,Rarity,Status
 20,Radish,Uncommon,Obtained
 21,LongBean,Uncommon,Obtained
 22,Melon,Uncommon,Obtained
-23,Jackfruit,Uncommon,Not
+23,Jackfruit,Uncommon,Obtained
 24,Soursop,Uncommon,Obtained
 25,Salak,Uncommon,Not
 26,DateFruit,Uncommon,Obtained
-27,Pomegranate,Uncommon,Not
+27,Pomegranate,Uncommon,Obtained
 28,Raisins,Uncommon,Obtained
 29,PassionFruit,Uncommon,Obtained
 30,Strawberry,Rare,Obtained

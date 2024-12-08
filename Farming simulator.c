@@ -29,10 +29,24 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         // Shop menu
         int option;
         int recordNumber;
+        int cost;
         while (1) {
         	system("cls");
             printf("---WELCOME TO THE SHOP---\n");
-            printf("Coins:%d\n", *coins);
+            printf("Coins:%d", *coins);
+    
+			if(*coins < -450){
+            	printf("(Dont't go over -500 I repeat do not)\n");
+			}else if(*coins < -400){
+            	printf("(Please tell me you have a plan)\n");
+			}else if(*coins < -250){
+            	printf("(You are deeply in debt)\n");
+			}else if(*coins < 0){
+				printf("(It's fine you can fix that)\n");
+			}else{
+				printf("\n");
+			}
+			
             printf("1. Common Box (50 Coin)\n");
             printf("2. Rare Box (100 Coin)\n");
             printf("3. Epic Box (200 Coin)\n");
@@ -40,26 +54,26 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
             printf("Choose an Option: ");
             scanf("%d", &option);
             if (option == 1) {
-                if (*coins >= 50) {
-                    recordNumber = commonbox();
-                    *coins -= 50; // Deduct coins correctly
-                    break;
-                }
-                printf("You don't have enough money!!\n");
+                
+                recordNumber = commonbox();
+                cost = 50;
+                *coins -= 50; // Deduct coins correctly
+                break;
+                
             } else if (option == 2) {
-                if (*coins >= 100) {
-                    recordNumber = rarebox();
-                    *coins -= 100; // Deduct coins correctly
-                    break;
-                }
-                printf("You don't have enough money!!\n");
+                
+                recordNumber = rarebox();
+                cost = 100;
+                *coins -= 100; // Deduct coins correctly
+                break;
+                
             } else if (option == 3) {
-                if (*coins >= 200) {
-                    recordNumber = epicbox();
-                    *coins -= 200; // Deduct coins correctly
-                    break;
-                }
-                printf("You don't have enough money!!\n");
+                
+                recordNumber = epicbox();
+                cost = 200;
+                *coins -= 200; 
+                break;
+                
             } else if (option == 0) {
                 printf("Exiting shop\n");
                 Sleep(5000);
@@ -75,6 +89,7 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
 		
 		system("cls");
         printf("\nInventory updated successfully. YOU GOT %s (%s)\n", crop->name, crop->rarity);
+        printf("Coins -%d (Coins:%d)\n", cost, *coins);
 
        
         file = fopen(filename, "w");
@@ -522,29 +537,7 @@ void watercrop(const char *plotFile, int *moves){
 	
 }
 
-void sellrandomizer(int sellcost, int **COINS, int *p){
-	*p=0;
-	srand(time(NULL));
-	int b = random(1,1000);
-	if(b<40){
-		printf("\nThis Crop is contaminated\n");
-		sellcost = sellcost/2;
-		**COINS += sellcost;
-	}else if(b>920){
-		printf("\nGod Damn Best crop I have seen in years\n");
-		sellcost = sellcost*2;
-		**COINS += sellcost;
-	}else if(b>800){
-		printf("\nBring me more of this goodie\n");
-		sellcost = sellcost/2*3;
-		**COINS += sellcost;
-	}else if(b>540){
-		sellcost = sellcost/5*5;
-		printf("\nNice crop you got there\n"); 
-		**COINS += sellcost;
-	}
-	*p = sellcost;
-}
+
 
 void harvestcrop(const char *plotFile, int *coins, int *moves){
 	while(1){
@@ -694,100 +687,8 @@ void plottimeremover(const char *plotFile){
 	
 }
 
-void tipsrandomizer(){
-	srand(time(NULL));
-	int tips = random(1,5);
-	printf("\n\n");
-	printf("Tips :");
-
-	if(tips == 1){
-		printf("Always type 0 to exit");
-	}else if(tips == 2){
-		printf("Prioritize the highest rarity");
-	}else if(tips == 3){
-		printf("Epic box had the highest chance to obtain legendary crop");
-	}else if(tips == 4){
-		printf("Save some money to buy Epic box");
-	}else if(tips == 5){
-		printf("Remember it's not gambling if it's the only thing you can spend money on");
-	}
-	printf("\n\n");
-}
-
-void wateradderrandomizer(const char *plotFile){
-	plot plotData[5];
-	int count =0;
-	char line[MAX_LINE_LENGTH];
-	FILE *file;
-	file = fopen(plotFile, "r+");
-    if (file == NULL) {
-        perror("Error opening plot file");
-        return;
-    }
 
 
-
-    
-    fgets(line, sizeof(line), file); 
-    while (fgets(line, sizeof(line), file)) {
-        sscanf(line, "%d,%14[^,],%19[^,],%9[^,],%d,%d", 
-               	&plotData[count].number, plotData[count].status, 
-               	plotData[count].plotcrop.name, plotData[count].plotcrop.rarity, 
-               	&plotData[count].water_needed, &plotData[count].time_to_harvest);
-        count++;
-    }
-    fclose(file);
-    
-    for(int i=0;i<5;i++){
-    	if(strcmp(plotData[i].status,"NotPlanted") == 0){
-    		continue;
-		}
-		
-		if(strcmp(plotData[i].plotcrop.rarity, "Common") == 0){
-			if(plotData[i].water_needed == Common.water){
-				continue;
-			}
-		}else if(strcmp(plotData[i].plotcrop.rarity, "Uncommon") == 0){
-			if(plotData[i].water_needed == Uncommon.water){
-				continue;
-			}
-		}else if(strcmp(plotData[i].plotcrop.rarity, "Rare") == 0){
-			if(plotData[i].water_needed == Rare.water){
-				continue;
-			}
-		}else if(strcmp(plotData[i].plotcrop.rarity, "Epic") == 0){
-			if(plotData[i].water_needed == Epic.water){
-				continue;
-			}
-		}else if(strcmp(plotData[i].plotcrop.rarity, "Legendary") == 0){
-			if(plotData[i].water_needed == Legendary.water){
-				continue;
-			}
-		}
-		
-		
-		
-    	srand(time(NULL));
-		int wateradd = random(1,100);
-		if(wateradd > 10){
-			plotData[i].water_needed += 1;
-		}
-	}
-	
-	file = fopen(plotFile, "w");
-    if (file == NULL) {
-       	perror("Error saving plot file");
-        return;
-    }
-
-    fprintf(file, "Num,Status,CropName,CropRarity,WaterNeeded,TimeToHarvest\n");
-    for (int j = 0; j < count; j++) {
-        fprintf(file, "%d,%s,%s,%s,%d,%d\n", plotData[j].number, plotData[j].status, 
-                plotData[j].plotcrop.name, plotData[j].plotcrop.rarity, 
-                plotData[j].water_needed, plotData[j].time_to_harvest);
-    }
-    fclose(file);
-}
 
 void inventoryclear(const char *invFile){
 	FILE *file;
@@ -845,7 +746,7 @@ void plotclear(const char *plotFile){
 int main() {
 
   
-    int coins = 1000;
+    int coins = 50;
 	inventoryclear(INVENTORY);
 	plotclear(PLOT);
 	
@@ -860,7 +761,21 @@ int main() {
 			system("cls");
             printf("=== Season Progress ===\n");
             printf("Days remaining: %d\n", season_days);
-            printf("Coins: %d\n", coins);
+            printf("Coins: %d", coins);
+            
+            if(coins < -450){
+            	printf("(Dont't go over -500 I repeat do not)\n");
+			}else if(coins < -400){
+            	printf("(Please tell me you have a plan)\n");
+			}else if(coins < -250){
+            	printf("(You are deeply in debt)\n");
+			}else if(coins < -100){
+				printf("(You are really-really broke)\n");
+			}else if(coins < 0){
+				printf("(It's fine you can fix that)\n");
+			}else{
+				printf("\n");
+			}
             printf("Actions remaining today: %d\n", daily_actions);
             printf("=======================\n");
 			
@@ -920,7 +835,13 @@ int main() {
 
             
         }
-
+		
+		if(coins <= -500){
+			system("cls");
+			printf("YOU ARE IN BIG TROUBLE");
+			return 0;
+		}
+		
         if (daily_actions == 0 && season_days > 0) {
             printf("\nYou have used all actions for today. Moving to the next day...\n");
 			plottimeremover(PLOT);

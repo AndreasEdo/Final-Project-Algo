@@ -24,6 +24,10 @@ int compareByRarity(const void *a, const void *b) {
     return strcmp(((Crop *)a)->rarity, ((Crop *)b)->rarity);
 }
 
+int compareByStatus(const void *a, const void *b) {
+    return strcmp(((Crop *)a)->status, ((Crop *)b)->status);
+}
+
 void sortCrops(Crop crops[], int count, int (*compare)(const void *, const void *)) {
     qsort(crops, count, sizeof(Crop), compare);
 }
@@ -64,6 +68,10 @@ int main() {
 
     sortCrops(crops, count, compareByRarity);
     printf("\nSorted by Rarity:\n");
+    printCrops(crops, count);
+
+    sortCrops(crops, count, compareByStatus);
+    printf("\nSorted by Status:\n");
     printCrops(crops, count);
 
     return 0;
