@@ -1,6 +1,1 @@
 Name,Rarity,Quantity
-GreenBean,Common,1
-MustardGreens,Common,1
-Shallot,Rare,1
-Apple,Epic,1
-Spinach,Common,1

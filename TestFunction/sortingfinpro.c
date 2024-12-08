@@ -7,11 +7,10 @@
 
 typedef struct {
     int index;
-    char name[MAX_NAME_LENGTH];
-    char rarity[MAX_NAME_LENGTH];
-    char status[MAX_NAME_LENGTH];
+    char name[20];
+    char rarity[10];
+    char status[10];
 } Crop;
-
 
 int compareByIndex(const void *a, const void *b) {
     return ((Crop *)a)->index - ((Crop *)b)->index;
@@ -30,9 +29,9 @@ void sortCrops(Crop crops[], int count, int (*compare)(const void *, const void 
 }
 
 void printCrops(Crop crops[], int count) {
-    printf("Index\tName\tRarity\tStatus\n");
+    printf("Index  Name                 Rarity     Status\n");
     for (int i = 0; i < count; i++) {
-        printf("%d\t%s\t%s\t%s\n", crops[i].index, crops[i].name, crops[i].rarity, crops[i].status);
+        printf("%-6d %-20s %-10s %-10s\n", crops[i].index, crops[i].name, crops[i].rarity, crops[i].status);
     }
 }
 
@@ -49,7 +48,6 @@ int main() {
     char buffer[256];
     fgets(buffer, sizeof(buffer), file);
 
-    
     while (fgets(buffer, sizeof(buffer), file) && count < MAX_CROPS) {
         sscanf(buffer, "%d,%49[^,],%49[^,],%49[^,\n]", &crops[count].index, crops[count].name, crops[count].rarity, crops[count].status);
         count++;

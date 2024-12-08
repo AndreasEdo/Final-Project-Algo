@@ -30,7 +30,9 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         int option;
         int recordNumber;
         while (1) {
+        	system("cls");
             printf("---WELCOME TO THE SHOP---\n");
+            printf("Coins:%d\n", *coins);
             printf("1. Common Box (50 Coin)\n");
             printf("2. Rare Box (100 Coin)\n");
             printf("3. Epic Box (200 Coin)\n");
@@ -70,8 +72,9 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         // Rewrite the crop's status
         Crop *crop = &crops[recordNumber - 1];
         strcpy(crop->status, "Obtained");
-
-        printf("\nRecord updated successfully. YOU GOT %s (%s)\n", crop->name, crop->rarity);
+		
+		system("cls");
+        printf("\nInventory updated successfully. YOU GOT %s (%s)\n", crop->name, crop->rarity);
 
        
         file = fopen(filename, "w");
@@ -92,6 +95,7 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         file = fopen(inventory, "r+");
         if (file == NULL) {
             perror("Error opening file");
+            Sleep(5000);
             return;
         }
 
@@ -107,13 +111,16 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
                    &invencrop[count].quantity);
             count++;
         }
+        if(count == 0){
+        	count = 1;
+		}
         fclose(file);
-
+		
         for (int i = 0; i < count; i++) {
             if (strcmp(invencrop[i].crop.name, crop->name) == 0) {
                 invencrop[i].quantity += 1; 
                 break;
-            } else if (i == count - 1) {
+            } else if (i == count-1) {
      
                 strcpy(invencrop[count].crop.name, crop->name);
                 strcpy(invencrop[count].crop.rarity, crop->rarity);
@@ -137,7 +144,7 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
             }
         }
         fclose(file);
-
+		
         printf("\n--- Updated Inventory ---\n");
         for (int i = 0; i < count; i++) {
             printf("%s (%s) - Quantity: %d\n", 
@@ -478,7 +485,7 @@ void watercrop(const char *plotFile, int *moves){
 	        printf("\nChoose a plot to water:");
 	    	scanf("%d", &plotchoice);
 			if(plotchoice >= 1 && plotchoice <= 5){
-				if(plotData[plotchoice-1].water_needed == 0){
+				if(plotData[plotchoice-1].water_needed <= 0){
 					printf("This plot need no more water\n");
 				}else{
 					plotData[plotchoice-1].water_needed -= 1;
@@ -513,6 +520,30 @@ void watercrop(const char *plotFile, int *moves){
 	    
 	}
 	
+}
+
+void sellrandomizer(int sellcost, int **COINS, int *p){
+	*p=0;
+	srand(time(NULL));
+	int b = random(1,1000);
+	if(b<40){
+		printf("\nThis Crop is contaminated\n");
+		sellcost = sellcost/2;
+		**COINS += sellcost;
+	}else if(b>920){
+		printf("\nGod Damn Best crop I have seen in years\n");
+		sellcost = sellcost*2;
+		**COINS += sellcost;
+	}else if(b>800){
+		printf("\nBring me more of this goodie\n");
+		sellcost = sellcost/2*3;
+		**COINS += sellcost;
+	}else if(b>540){
+		sellcost = sellcost/5*5;
+		printf("\nNice crop you got there\n"); 
+		**COINS += sellcost;
+	}
+	*p = sellcost;
 }
 
 void harvestcrop(const char *plotFile, int *coins, int *moves){
@@ -572,22 +603,22 @@ void harvestcrop(const char *plotFile, int *coins, int *moves){
 		}
 		
 
-		
+		int s;
 		if(strcmp(plotData[choice-1].plotcrop.rarity ,"Common") == 0){
-			*coins += Common.sell_value;
-			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", Common.sell_value, *coins);
+			sellrandomizer(Common.sell_value, &coins, &s);
+			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", s, *coins);
 		}else if(strcmp(plotData[choice-1].plotcrop.rarity ,"Uncommon") == 0){
-			*coins += Uncommon.sell_value;
-			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", Uncommon.sell_value, *coins);
+			sellrandomizer(Uncommon.sell_value, &coins, &s);
+			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", s, *coins);
 		}else if(strcmp(plotData[choice-1].plotcrop.rarity ,"Rare") == 0){
-			*coins += Rare.sell_value;
-			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", Rare.sell_value, *coins);
+			sellrandomizer(Rare.sell_value, &coins, &s);
+			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", s, *coins);
 		}else if(strcmp(plotData[choice-1].plotcrop.rarity ,"Epic") == 0){
-			*coins += Epic.sell_value;
-			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", Epic.sell_value, *coins);
+			sellrandomizer(Epic.sell_value, &coins, &s);
+			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", s, *coins);
 		}else if(strcmp(plotData[choice-1].plotcrop.rarity ,"Legendary") == 0){
-			*coins += Legendary.sell_value;
-			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", Legendary.sell_value, *coins);
+			sellrandomizer(Legendary.sell_value, &coins, &s);
+			printf("\nYou earn a total of %d Coins (Your coins: %d)\n", s, *coins);
 		}
 		strcpy(plotData[choice-1].plotcrop.name, "None");
 		strcpy(plotData[choice-1].status, "NotPlanted");
@@ -758,12 +789,66 @@ void wateradderrandomizer(const char *plotFile){
     fclose(file);
 }
 
+void inventoryclear(const char *invFile){
+	FILE *file;
+	file = fopen(invFile, "w");
+	fprintf(file, "");
+	fclose(file);
+}
+
+void plotclear(const char *plotFile){
+	FILE *file;
+	plot plotData[5];
+	file = fopen(plotFile, "r+");
+	if (file == NULL) {
+        perror("Error opening plot file");
+        return;
+    }
+
+
+	char line[MAX_LINE_LENGTH];
+    int count;
+    fgets(line, sizeof(line), file); 
+    while (fgets(line, sizeof(line), file)) {
+        sscanf(line, "%d,%14[^,],%19[^,],%9[^,],%d,%d", 
+               	&plotData[count].number, plotData[count].status, 
+               	plotData[count].plotcrop.name, plotData[count].plotcrop.rarity, 
+               	&plotData[count].water_needed, &plotData[count].time_to_harvest);
+        count++;
+    }
+    fclose(file);
+    
+    for(int i=0;i<5;i++){
+    	strcpy(plotData[i].plotcrop.name, "None");
+    	strcpy(plotData[i].plotcrop.rarity, "None");
+    	strcpy(plotData[i].status, "NotPlanted");
+    	plotData[i].time_to_harvest = -1;
+    	plotData[i].water_needed = -1;
+	}
+	
+	file = fopen(plotFile, "w");
+    if (file == NULL) {
+       	perror("Error saving plot file");
+        return;
+    }
+
+    fprintf(file, "Num,Status,CropName,CropRarity,WaterNeeded,TimeToHarvest\n");
+    for (int j = 0; j < count; j++) {
+        fprintf(file, "%d,%s,%s,%s,%d,%d\n", plotData[j].number, plotData[j].status, 
+                plotData[j].plotcrop.name, plotData[j].plotcrop.rarity, 
+                plotData[j].water_needed, plotData[j].time_to_harvest);
+    }
+    fclose(file);
+	
+}
+
 int main() {
 
   
     int coins = 1000;
+	inventoryclear(INVENTORY);
+	plotclear(PLOT);
 	
-
     printf("Welcome to the Advanced Farming Game!\n");
 	
   	int season_days = SEASON_DAYS;
