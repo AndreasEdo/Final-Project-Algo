@@ -1,11 +1,15 @@
 #include "struct.c"
 #include "randomizer.c"
 
-
+#include "Animasi/gotoxy.c"
+#include "Animasi/Animasinanam.c"
+#include "Animasi/Animasishop.c"
 
 void shop_menu(int *coins, const char *filename, const char *inventory) {
     while (1) {
         // Transfer all the file to struct
+        system("cls");
+        textonly();
         FILE *file = fopen(filename, "r+");
         if (file == NULL) {
             perror("Error opening file");
@@ -31,7 +35,9 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         int recordNumber;
         int cost;
         while (1) {
-        	system("cls");
+        	
+        	
+        	gotoxy(0,0);
             printf("---WELCOME TO THE SHOP---\n");
             printf("Coins:%d", *coins);
     
@@ -75,16 +81,22 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
                 break;
                 
             } else if (option == 0) {
-                printf("Exiting shop\n");
-                Sleep(5000);
+            	goodbye();
+            	Sleep(2000);
+                goinghomeanimation();
                 system("cls");
                 return; // Exit the shop menu
             }
-            printf("Invalid Input\n");
+            wronginput();
+            Sleep(1000);
+            system("cls");
         }
 
         // Rewrite the crop's status
         Crop *crop = &crops[recordNumber - 1];
+        if(strcmp(crops[recordNumber-1].status,"Not") == 0){
+        	printf("You got a new seed\n");
+		}
         strcpy(crop->status, "Obtained");
 		
 		system("cls");
@@ -168,8 +180,9 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
                    invencrop[i].quantity);
         }
         printf("-------------------------\n");
-
         Sleep(5000); 
+        shopkeeperbuy();
+        Sleep(2000);
     }
 }
 
@@ -391,7 +404,7 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	        	printf("Invalid plot choice\n");
 			}
 	    }
-	
+		displaynanam();
 	    // Update inventory and plot data
 	    inventory[i].quantity -= 1;
 	    strcpy(plotData[plotchoice].plotcrop.name, inventory[i].crop.name);
@@ -751,6 +764,26 @@ int main() {
 	plotclear(PLOT);
 	
     printf("Welcome to the Advanced Farming Game!\n");
+    char username[1000];
+	char yn;
+
+	do {
+    	printf("Input username (up to 20 characters): ");
+    	scanf("%s", username);
+
+    	if (strlen(username) > 20) {
+        	printf("\nUsername cannot be more than 20 characters\n");
+    	} else {
+        	printf("\nAre you sure you want your name to be %s?\n", username);
+        	printf("Input Y/N: ");
+
+        
+        	int c;
+        	while ((c = getchar()) != '\n' && c != EOF);
+
+        	scanf("%c", &yn);
+    	}
+	} while (strlen(username) > 20 || yn == 'n' || yn == 'N');
 	
   	int season_days = SEASON_DAYS;
     while (season_days > 0) { 
@@ -816,7 +849,9 @@ int main() {
                     break;
                 }
                 case 4: { // Visit Shop
-    				printf("\n--- Visiting Box Shop ---\n");
+    				shopanimation();
+    				shopkeeperanimation();
+    				Sleep(1000);
     				shop_menu(&coins, FILENAME, INVENTORY);
     				daily_actions--;
     				break;
@@ -836,15 +871,15 @@ int main() {
             
         }
 		
-		if(coins <= -500){
-			system("cls");
-			printf("YOU ARE IN BIG TROUBLE");
-			return 0;
-		}
+//		if(coins <= -500){
+//			system("cls");
+//			printf("YOU ARE IN BIG TROUBLE");
+//			return 0;
+//		}
 		
         if (daily_actions == 0 && season_days > 0) {
             printf("\nYou have used all actions for today. Moving to the next day...\n");
-			plottimeremover(PLOT);
+			plottimeremover(PLOT); 
 			wateradderrandomizer(PLOT);
             season_days--;
 

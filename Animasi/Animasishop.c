@@ -1,4 +1,6 @@
-#include "Utilityfunction.h"
+#include "gotoxy.h"
+
+
 
 void shopandhomeframe(){
 	gotoxy(50, 3);
@@ -406,6 +408,252 @@ void goinghomeanimation() {
     Sleep(200);
     system("cls");
 }
+
+void shopkeeperframe1(){
+	gotoxy(50,11);
+	printf("/\\_____/\\");
+	gotoxy(49,12);
+	printf("/  o   o  \\");
+	gotoxy(48,13);
+	printf("( ==  ^  == )");
+	gotoxy(49,14);
+	printf(")         (");
+	gotoxy(48,15);
+	printf("(           )");
+	gotoxy(47,16);
+	printf("(  \\_____/  )");
+}
+
+void shopkeeperframe2(){
+	gotoxy(50,11);
+	printf("/\\_____/\\");
+	gotoxy(49,12);
+	printf("/  o   o  \\");
+	gotoxy(48,13);
+	printf("( ==  o  == )");
+	gotoxy(49,14);
+	printf(")         (");
+	gotoxy(48,15);
+	printf("(           )");
+	gotoxy(47,16);
+	printf("(  \\_____/  )");
+}
+
+void chatbox(){
+	gotoxy(60,11);
+	printf("/");
+	gotoxy(61,10);
+	printf("/");
+	gotoxy(62,9);
+	printf("/");
+	gotoxy(54,8);
+	printf("+----------------+");
+	gotoxy(54,7);
+	printf("|                |");
+	gotoxy(54,6);
+	printf("|                |");
+	gotoxy(54,5);
+	printf("|                |");
+	gotoxy(54,4);
+	printf("|                |");
+	gotoxy(54,3);
+	printf("+----------------+");
+}
+
+void textline1(){
+	char text[]="Welcome to";
+	int x=58;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,4);-
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void textline2(){
+	char text[]="the shop";
+	int x=59;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,5);
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void textline3(){
+	char text[]="see anything";
+	int x=57;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,6);
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void textline4(){
+	char text[]="you like?";
+	int x=59;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,7);
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void textline1f(){
+	gotoxy(58,4);
+	printf("Welcome to");
+}
+
+void textline2f(){
+	gotoxy(59,5);
+	printf("the shop");
+}
+
+void textline3f(){
+	gotoxy(57,6);
+	printf("see anything");
+}
+
+void textline4f(){
+	gotoxy(59,7);
+	printf("you like?");
+}
+
+void shopkeeperanimation(){
+	shopkeeperframe1();
+	chatbox();
+	textline1();
+	system("cls");
+	
+	shopkeeperframe2();
+	chatbox();
+	textline1f();
+	textline2();
+	system("cls");
+	
+	shopkeeperframe1();
+	chatbox();
+	textline1f();
+	textline2f();
+	textline3();
+	system("cls");
+	
+	shopkeeperframe2();
+	chatbox();
+	textline1f();
+	textline2f();
+	textline3f();
+	textline4();
+	system("cls");
+	
+	shopkeeperframe1();
+	chatbox();
+	textline1f();
+	textline2f();
+	textline3f();
+	textline4f();
+	
+}
+
+void buytext1(){
+	char text[]="Anything";
+	int x=59;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,5);
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void buytext2(){
+	char text[]="else?";
+	int x=61;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,6);
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void buytext1f(){
+	gotoxy(59,5);
+	printf("Anything");
+}
+
+void buytext2f(){
+	gotoxy(61,6);
+	printf("else?");
+}
+
+void shopkeeperbuy(){
+	shopkeeperframe1();
+	chatbox();
+	buytext1();
+	system("cls");
+	
+	shopkeeperframe2();
+	chatbox();
+	buytext1f();
+	buytext2();
+	system("cls");
+	
+	shopkeeperframe1();
+	chatbox();
+	buytext1f();
+	buytext2f();
+	
+}
+
+void goodbyetext1(){
+	char text[]="goodbye";
+	int x=59;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,5);
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void goodbye(){
+	shopkeeperframe1();
+	chatbox();
+	goodbyetext1();
+	
+}
+
+void wronginputtext(){
+	char text[]="wrong input";
+	int x=57;
+	for(int i=0;i<strlen(text);i++){
+		gotoxy(x,5);
+		printf("%c", text[i]);Sleep(100);
+		x++;
+	}
+}
+
+void wronginput(){
+	shopkeeperframe1();
+	chatbox();
+	wronginputtext();
+}
+
+void textonly(){
+	shopkeeperframe1();
+	
+}
+
+
+	
+
+
+	
+//	shopanimation();
+//	shopkeeperanimation();
+//	shopkeeperbuy();
+//	goodbye();
+//	goinghomeanimation();
+
 
 
 

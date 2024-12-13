@@ -1,6 +1,6 @@
 
 
-#include "Utilityfunction.h"
+#include "Utilityfunction.c"
 
 
 void wateringcan() {
@@ -174,7 +174,9 @@ void animationwatering() {
     
 }
 
-
+int main(){
+	animationwatering();
+}
 
 
 

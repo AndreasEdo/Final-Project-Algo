@@ -1,6 +1,6 @@
 
 
-#include "Utilityfunction.h"
+#include "gotoxy.h"
 
 void padiframe1(){
 	gotoxy(53,2);
@@ -143,5 +143,7 @@ void displaynanam(){
 	printf("Planting..");
 	Sleep(500);
 }
+
+
 
 

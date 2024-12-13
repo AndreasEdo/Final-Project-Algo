@@ -1,0 +1,4 @@
+Name,Rarity,Quantity
+Mango,Rare,1
+Grape,Legendary,1
+Cauliflower,Common,1
