@@ -10,7 +10,7 @@ Index,Name,Rarity,Status
 9,GreenOnion,Common,Not
 10,MustardGreens,Common,Not
 11,Carrot,Common,Not
-12,Tomato,Common,Not
+12,Tomato,Common,Obtained
 13,Spinach,Common,Not
 14,Broccoli,Common,Not
 15,Cabbage,Common,Not
@@ -21,15 +21,15 @@ Index,Name,Rarity,Status
 20,Radish,Uncommon,Not
 21,LongBean,Uncommon,Not
 22,Melon,Uncommon,Not
-23,Jackfruit,Uncommon,Not
+23,Jackfruit,Uncommon,Obtained
 24,Soursop,Uncommon,Not
 25,Salak,Uncommon,Not
 26,DateFruit,Uncommon,Obtained
 27,Pomegranate,Uncommon,Not
-28,Raisins,Uncommon,Not
+28,Raisins,Uncommon,Obtained
 29,PassionFruit,Uncommon,Not
 30,Strawberry,Rare,Obtained
-31,Kiwi,Rare,Not
+31,Kiwi,Rare,Obtained
 32,Cherry,Rare,Not
 33,Watermelon,Rare,Not
 34,Asparagus,Rare,Obtained

@@ -20,7 +20,7 @@
 #define MAX_INVENTORY 3
 #define MAX_SEEDS_PER_CROP 100
 #define SEASON_DAYS 90
-#define HIGH_SCORE_FILE "highscore.txt"
+#define HIGHSCORE "highscore.txt"
 
 #define PLOT "plot.txt"
 #define INVENTORY "inventory.txt"
@@ -61,5 +61,12 @@ typedef struct {
     Crop crop;
     int quantity; 
 } Inventory;
+
+typedef struct{
+	char name[50];
+	int hs;
+} highscore;
+
+
 
 #endif

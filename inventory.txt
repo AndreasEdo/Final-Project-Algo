@@ -1,4 +1,3 @@
 Name,Rarity,Quantity
-Mango,Rare,1
-Grape,Legendary,1
-Cauliflower,Common,1
+Banana,Rare,1
+Kiwi,Rare,1
