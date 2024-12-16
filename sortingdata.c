@@ -104,7 +104,7 @@ void sortstatusdata(const char *fileName) {
     while (fgets(line, sizeof(line), file)) {
         
 
-        `
+        
         sscanf(line, "%d,%19[^,],%9[^,],%9s", &crop[count].index, crop[count].name, crop[count].rarity, crop[count].status);
         count++;
     }

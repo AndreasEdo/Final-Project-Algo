@@ -16,9 +16,7 @@
 #endif
 
 
-#define MAX_PLOTS 5
-#define MAX_INVENTORY 3
-#define MAX_SEEDS_PER_CROP 100
+
 #define SEASON_DAYS 90
 #define HIGHSCORE "highscore.txt"
 
@@ -43,10 +41,10 @@ typedef struct{
 	int sell_value;
 } rarity;
 
-rarity Common = {3,3,25};
-rarity Uncommon = {4,4,50};
-rarity Rare = {5,5,75};
-rarity Epic = {7,7,150};
+rarity Common = {3,3,50};
+rarity Uncommon = {4,4,100};
+rarity Rare = {5,5,150};
+rarity Epic = {7,7,200};
 rarity Legendary = {9,1,500};
 
 typedef struct{

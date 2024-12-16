@@ -1,3 +1,0 @@
-Name,Rarity,Quantity
-Banana,Rare,1
-Kiwi,Rare,1
