@@ -19,11 +19,11 @@ Index,Name,Rarity,Status
 18,Eggplant,Uncommon,Not
 19,Chili,Uncommon,Obtained
 20,Radish,Uncommon,Obtained
-21,LongBean,Uncommon,Not
+21,LongBean,Uncommon,Obtained
 22,Melon,Uncommon,Obtained
 23,Jackfruit,Uncommon,Obtained
 24,Soursop,Uncommon,Not
-25,Salak,Uncommon,Not
+25,Salak,Uncommon,Obtained
 26,DateFruit,Uncommon,Obtained
 27,Pomegranate,Uncommon,Obtained
 28,Raisins,Uncommon,Obtained

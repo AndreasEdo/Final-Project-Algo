@@ -29,23 +29,23 @@ int main() {
     char username[1000];
 	char yn;
 
-	do {
-    	printf("Input username (up to 20 characters): ");
-    	scanf("%s", username);
-
-    	if (strlen(username) > 20) {
-        	printf("\nUsername cannot be more than 20 characters\n");
-    	} else {
-        	printf("\nAre you sure you want your name to be %s?\n", username);
-        	printf("Input Y/N: ");
-
-        
-        	int c;
-        	while ((c = getchar()) != '\n' && c != EOF);
-
-        	scanf("%c", &yn);
-    	}
-	} while (strlen(username) > 20 || yn == 'n' || yn == 'N');
+//	do {
+//    	printf("Input username (up to 20 characters): ");
+//    	scanf("%s", username);
+//
+//    	if (strlen(username) > 20) {
+//        	printf("\nUsername cannot be more than 20 characters\n");
+//    	} else {
+//        	printf("\nAre you sure you want your name to be %s?\n", username);
+//        	printf("Input Y/N: ");
+//
+//        
+//        	int c;
+//        	while ((c = getchar()) != '\n' && c != EOF);
+//
+//        	scanf("%c", &yn);
+//    	}
+//	} while (strlen(username) > 20 || yn == 'n' || yn == 'N');
 	
   	int season_days = SEASON_DAYS;
     while (season_days > 0) {
