@@ -1,0 +1,11 @@
+Username,Highscore
+Dummy,1000
+Test Dummy,1500
+Pamungkas,2000
+Lontong,3000
+zzzz,3500
+aaaa,6000
+Bambang,10000
+Telo,20000
+Satrio,20000
+Cak,50000

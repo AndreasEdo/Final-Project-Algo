@@ -1,5 +1,5 @@
 Index,Name,Rarity,Status
-1,Wheat,Common,Not
+1,Wheat,Common,Obtained
 2,Corn,Common,Not
 3,Soybean,Common,Obtained
 4,GreenBean,Common,Obtained

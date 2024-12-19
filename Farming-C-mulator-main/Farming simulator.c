@@ -2,6 +2,8 @@
 #include "randomizer.c"
 #include "function.c"
 #include "display.c"
+#include "sortingdata.c"
+#include "highscore.c"
 
 #include "Animasi/gotoxy.c"
 #include "Animasi/Animasinanam.c"
@@ -9,7 +11,7 @@
 #include "Animasi/gantihari.c"
 #include "Animasi/gameover.c"
 #include "Animasi/animasinyiram.c"
-
+#include "Animasi/animasiawal.c"
 
 void shop_menu(int *coins, const char *filename, const char *inventory);
 void plantCrop(const char *plotFile, const char *inventoryFile,int *moves);
@@ -19,34 +21,135 @@ void harvestcrop(const char *plotFile, int *coins, int *moves);
 
 
 int main() {
-
-  
-    int coins = 100;
+    int coins = STARTING_COINS;
     int cointtoday = coins;
 	inventoryclear(INVENTORY);
 	plotclear(PLOT);
-    printf("Welcome to the Advanced Farming Game!\n");
     char username[1000];
 	char yn;
-
-//	do {
-//    	printf("Input username (up to 20 characters): ");
-//    	scanf("%s", username);
-//
-//    	if (strlen(username) > 20) {
-//        	printf("\nUsername cannot be more than 20 characters\n");
-//    	} else {
-//        	printf("\nAre you sure you want your name to be %s?\n", username);
-//        	printf("Input Y/N: ");
-//
-//        
-//        	int c;
-//        	while ((c = getchar()) != '\n' && c != EOF);
-//
-//        	scanf("%c", &yn);
-//    	}
-//	} while (strlen(username) > 20 || yn == 'n' || yn == 'N');
 	
+	char startingInput[100];
+	int startMenu = -1;
+	
+	char databaseInput[100];
+	int databaseMenu = -1;
+	
+    while (1) {
+        do {
+        	printf("| Farming C-mulator |\n\n");
+            printf("=== STARTING MENU ===\n");
+            printf("1. Play\n");
+            printf("2. Database\n");
+            printf("0. Exit\n");
+            printf("---------------------\n\n");
+            printf("Enter input: ");
+            
+            scanf("%s", startingInput);
+            startMenu = atoi(startingInput);
+            
+            system("cls");
+            if (startMenu < 0 || startMenu > 2) {
+                printf("Invalid input! Please enter a valid input!\n\n");
+            }
+        } while (startMenu < 0 || startMenu > 2);
+
+        switch (startMenu) {
+            case 1:
+                printf("Loading game...\n");
+                Sleep(3000);
+                system("cls");
+                goto game;
+
+            case 2:
+                printf("Loading data...\n");
+                Sleep(3000);
+                system("cls");
+
+                while (1) {
+                    do {
+                        printf("=== DATABASE MENU ===\n");
+                        printf("1. High Score\n");
+                        printf("2. Crops\n");
+                        printf("0. Back to Starting Menu\n");
+                        printf("---------------------\n\n");
+                        printf("Enter input: ");
+                        
+                        scanf("%s", databaseInput);
+                        databaseMenu = atoi(databaseInput);
+                        
+                        system("cls");
+                        if (databaseMenu < 0 || databaseMenu > 2) {
+                            printf("Invalid input! Please enter a valid input!\n\n");
+                        }
+                    } while (databaseMenu < 0 || databaseMenu > 2);
+                    
+                    switch (databaseMenu) {
+                        case 1:
+                            printf("Loading highscores...\n");
+                            Sleep(3000);
+                            system("cls");
+                            highscoreOptionsMenu();
+                            Sleep(2000);
+                            system("cls");
+                            break;
+                        case 2:
+                            printf("Loading crops...\n");
+                            Sleep(3000);
+                            system("cls");
+                            cropsData();
+                            Sleep(2000);
+                            system("cls");
+                            break;
+                        case 0:
+                            printf("Returning to Starting Menu...\n");
+                            Sleep(3000);
+                            system("cls");
+                            break;
+                    }
+                    
+                    if (databaseMenu == 0) {
+                        break;
+                    }
+                }
+                break;
+                
+            case 0:
+                printf("Exiting...\n");
+                Sleep(2000);
+                return 0;
+        }
+    }
+	
+	game:
+	do {
+		system("cls");
+		printf("=== INPUT USERNAME ===\n\n");
+   		printf("Enter (up to 20 characters): ");
+   		scanf("%s", username);
+
+	   	if (strlen(username) > 20) {
+	       	printf("\nUsername cannot be more than 20 characters!\n");
+	       	Sleep(2000);
+	   	} else {
+	       	printf("\nAre you sure you want your name to be \"%s\"? (Y/N): ", username);
+
+       
+       	int c;
+       	while ((c = getchar()) != '\n' && c != EOF);
+
+       	scanf("%c", &yn);
+   		}
+	} while (strlen(username) > 20 || yn == 'n' || yn == 'N');
+	
+	system("cls");
+	intro();
+	
+	system("cls");
+	gotoxy(50,7);
+	printf("Good luck \033[0;36m%s\033[0m", username);
+	Sleep(3000);
+	system("cls");
+	suntomoonStart();
   	int season_days = SEASON_DAYS;
     while (season_days > 0) {
 		
@@ -55,46 +158,47 @@ int main() {
         while (daily_actions > 0 && season_days > 0) {
         	
 			system("cls");
-            printf("=== Season Progress ===\n");
+            printf("=== SEASON PROGRESS ===\n");
             printf("Days remaining: \033[0;31m%d\033[0m\n", season_days);
-            printf("Coins: \033[0;33m%d\033[0m", coins);
+            printf("Coin(s): \033[0;33m%d\033[0m ", coins);
             
             if(coins < -450){
-            	printf("(Dont't go over -500 I repeat do not)\n");
+            	printf("(Dont't go over -500! I repeat do not!)\n");
 			}else if(coins < -400){
-            	printf("(Please tell me you have a plan)\n");
+            	printf("(Please tell me you have a plan.)\n");
 			}else if(coins < -250){
-            	printf("(You are deeply in debt)\n");
+            	printf("(You are deeply in debt.)\n");
 			}else if(coins < -100){
-				printf("(You are really-really broke)\n");
+				printf("(You are really-really broke.)\n");
 			}else if(coins < 0){
-				printf("(It's fine you can fix that)\n");
+				printf("(It's fine you can fix that.)\n");
 			}else{
 				printf("\n");
 			}
-            printf("Actions remaining today: \033[0;34m%d\033[0m\n", daily_actions);
-            printf("=======================\n");
+            printf("Today's remaining actions: \033[0;34m%d\033[0m\n", daily_actions);
+            printf("-----------------------\n");
 			
 			displayplotcrop(PLOT);
 			tipsrandomizer();
-            printf("\n--- Actions ---\n");
+            printf("\n=== ACTIONS ===\n");
             printf("1. Plant Crops\n");
             printf("2. Water Crops\n");
             printf("3. Harvest Crops\n");
             printf("4. Visit Shop\n");
-            printf("5. Wait a Day (Ends Actions)\n");
-            printf("----------------\n");
+            printf("5. Skip a Day (Ends all today's actions)\n");
+            printf("6. Retire\n");
+            printf("---------------\n");
 			
 			
             int action;
             while(1){
-            	printf("\nEnter Input(1-5):");
+            	printf("\nEnter input (1-5): ");
             	scanf("%d", &action);
-            	if(action >= 1 && action <= 5){
+            	if(action >= 1 && action <= 6){
             		break;
 				}
 				
-				printf("\nInvalid Input!!!\n");
+				printf("\nInvalid input! Please enter a valid input!\n");
 			}
 			
             switch (action) {
@@ -120,15 +224,22 @@ int main() {
     				break;
                 }
                 case 5: { // Wait a Day
-                    printf("\n--- Waiting a Day ---\n");
-
-                    daily_actions = 0; 
-
-                
-                    printf("A day has passed.\n");
+                	system("cls");
+                    printf("Sleeping in the bunk is good, isn't it?\n");
+                    Sleep(3000);
+					daily_actions = 0; 
                     break;
                 }
-                
+                case 6: { // Retire
+                	system("cls");
+					season_days = 0;
+                	printf("Looks like farming isn't really suitable for you. Better luck next time!\n");
+                    Sleep(4000);
+                    system("cls");
+                    goodbye();
+                    Sleep(2000);
+					break;
+				}
             }
 
             
@@ -142,13 +253,13 @@ int main() {
 		
         if (daily_actions == 0 && season_days > 0) {
         	system("cls");
-            printf("\nYou have used all actions for today. Moving to the next day...\n");
+            printf("You have used all actions for today. Moving to the next day...\n");
             Sleep(2000);
 			plottimeremover(PLOT); 
 			wateradderrandomizer(PLOT);
             season_days--;
             
-            printf("You earn %d coins today", coins-cointtoday);
+            printf("\nYou earn %d coins today!", coins-cointtoday);
             Sleep(2000);
             system("cls");
             suntomoon();
@@ -159,10 +270,15 @@ int main() {
     }
 
     // Season ended
-    printf("=== Season Over ===\n");
-    printf("Total coins earned: %d\n", coins);
-    printf("===================\n");
-
+    system("cls");
+	printf("=== Season Over ===\n");
+    printf("Total coins earned: \033[0;33m%d\033[0m\n", coins);
+    InputHighScore(username, coins, HIGHSCORE);
+    printf("\n\n==========NEW HIGHSCORE===============\n");
+    displaySortedByScoreDescending(HIGHSCORE);
+    printf("-------------------\n");
+    Sleep(7000);
+	
 
     return 0;
 }
@@ -177,7 +293,7 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         textonly();
         FILE *file = fopen(filename, "r+");
         if (file == NULL) {
-            perror("Error opening file");
+            perror("Error opening file!");
             return;
         }
 
@@ -203,26 +319,27 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         	
         	
         	gotoxy(0,0);
-            printf("---WELCOME TO THE SHOP---\n");
-            printf("Coins:\033[0;33m%d\033[0m", *coins);
+            printf("=== WELCOME TO THE SHOP ===\n\n");
+            printf("Your coin(s): \033[0;33m%d\033[0m ", *coins);
     
 			if(*coins < -450){
-            	printf("(Dont't go over -500 I repeat do not)\n");
+            	printf("(Dont't go over -500! I repeat do not!)\n");
 			}else if(*coins < -400){
-            	printf("(Please tell me you have a plan)\n");
+            	printf("(Please tell me you have a plan.)\n");
 			}else if(*coins < -250){
-            	printf("(You are deeply in debt)\n");
+            	printf("(You are deeply in debt.)\n");
 			}else if(*coins < 0){
-				printf("(It's fine you can fix that)\n");
+				printf("(It's fine you can fix that.)\n");
 			}else{
 				printf("\n");
 			}
 			
+			printf("\n");
             printf("1. Common Box (50 Coin)\n");
             printf("2. Rare Box (100 Coin)\n");
             printf("3. Epic Box (200 Coin)\n");
             printf("0. Exit Shop\n");
-            printf("Choose an Option: ");
+            printf("\nChoose an Option: ");
             scanf("%d", &option);
             if (option == 1) {
                 
@@ -260,20 +377,20 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         // Rewrite the crop's status
         Crop *crop = &crops[recordNumber - 1];
         if(strcmp(crops[recordNumber-1].status,"Not") == 0){
-        	printf("You got a new seed\n");
+        	printf("You got a new seed!\n");
 		}
         strcpy(crop->status, "Obtained");
 		
 		
 		system("cls");
-        printf("\nInventory updated successfully. YOU GOT %s (%s)\n", crop->name, crop->rarity);
-        printf("Coins -%d (Your coins:\033[0;33m%d\033[0m)\n", cost, *coins);
+        printf("\nInventory updated successfully! You got %s (%s)\n", crop->name, crop->rarity);
+        printf("\nReduce -%d coins. Remaining coin(s): \033[0;33m%d\033[0m\n", cost, *coins);
 
 
        //rewrite and update the cropdata.txt
         file = fopen(filename, "w");
         if (file == NULL) {
-            perror("Error opening file for writing");
+            perror("Error opening file for writing!");
             return;
         }
 
@@ -288,8 +405,8 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
        //input inventory.txt to a struct
         file = fopen(inventory, "r+");
         if (file == NULL) {
-            perror("Error opening file");
-            Sleep(5000);
+            perror("Error opening file!");
+            Sleep(3000);
             return;
         }
 
@@ -327,7 +444,8 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
 
         file = fopen(inventory, "w");
         if (file == NULL) {
-            perror("Error opening file for writing");
+            perror("Error opening file for writing!");
+            Sleep(3000);
             return;
         }
 		//update inventory.txt
@@ -341,17 +459,17 @@ void shop_menu(int *coins, const char *filename, const char *inventory) {
         fclose(file);
         
 		//show inventory
-        printf("\n--- Updated Inventory ---\n");
+        printf("\n=== Updated Inventory ===\n");
         for (int i = 0; i < count; i++) {
             printf("%s (%s) - Quantity: %d\n", 
                    invencrop[i].crop.name, 
                    invencrop[i].crop.rarity, 
                    invencrop[i].quantity);
         }
-        printf("-------------------------\n");
-        Sleep(5000); 
+        printf("---------------------------\n");
+        Sleep(7000); 
         shopkeeperbuy();
-        Sleep(2000);
+        Sleep(3000);
     }
 }
 
@@ -362,8 +480,8 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 		printf("\nActions left today: \033[0;34m%d\033[0m\n\n", *moves);
 			
 		if(*moves == 0){
-			printf("\nYou have used all your Actions for today Exiting");
-			Sleep(5000);
+			printf("\nYou have used all your actions for today. Exiting...");
+			Sleep(3000);
 		    return;
 		}
 		
@@ -375,7 +493,8 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	    // Load inventory data
 	    FILE *file = fopen(inventoryFile, "r+");
 	    if (file == NULL) {
-	        perror("Error opening inventory file");
+	        perror("Error opening inventory file!");
+	        Sleep(3000);
 	        return;
 	    }
 	
@@ -394,7 +513,8 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	    // Load plot data
 	    file = fopen(plotFile, "r+");
 	    if (file == NULL) {
-	        perror("Error opening plot file");
+	        perror("Error opening plot file!");
+	        Sleep(3000);
 	        return;
 	    }
 	
@@ -420,8 +540,8 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	        printf("\nChoose a crop to plant: ");
 	        scanf("%s", cropchoice);
 			if(strcmp(cropchoice, "0") == 0){
-				printf("Returning to home");
-				Sleep(5000);
+				printf("\nReturning to home...\n");
+				Sleep(3000);
 				return;
 			}
 			
@@ -433,7 +553,7 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	        }
 	
 	        if (cropFound) break;
-	        printf("Invalid crop name! Try again.(Make sure the capital Letter is correct)\n");
+	        printf("Invalid crop name! Make sure the capital letter is correct!\n");
 	    }
 	
 	    // Ask user for plot choice
@@ -448,13 +568,13 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	            	
 	                break;
 	            }
-	            printf("Plot is already planted! Choose another plot.\n");
+	            printf("Plot is already planted. Choose another plot!\n");
 	        } else if (plotchoice == 0){
-	        	printf("Cancelling planting");
-	            Sleep(5000);
+	        	printf("Cancelling planting...");
+	            Sleep(3000);
 	            return;
 	        }else{
-	        	printf("Invalid plot choice\n");
+	        	printf("Invalid plot choice!\n");
 			}
 	    }
 		displaynanam();
@@ -492,7 +612,8 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	    // Save updated inventory
 	    file = fopen(inventoryFile, "w");
 	    if (file == NULL) {
-	        perror("Error saving inventory file");
+	        perror("Error saving inventory file!");
+	        Sleep(3000);
 	        return;
 	    }
 	
@@ -505,7 +626,8 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 	    // Save updated plot data
 	    file = fopen(plotFile, "w");
 	    if (file == NULL) {
-	        perror("Error saving plot file");
+	        perror("Error saving plot file!");
+	        Sleep(3000);
 	        return;
 	    }
 	
@@ -519,7 +641,7 @@ void plantCrop(const char *plotFile, const char *inventoryFile,int *moves) {
 		*moves -= 1;
 	    system("cls");
 	    printf("Crop planted successfully!\n");
-	    Sleep(5000);
+	    Sleep(3000);
 	    
 	}
 }
@@ -532,8 +654,8 @@ void watercrop(const char *plotFile, int *moves){
 		printf("\nActions left today: \033[0;34m%d\033[0m\n\n", *moves);
 			
 		if(*moves == 0){
-			printf("\nYou have used all your Actions for today Exiting");
-			Sleep(5000);
+			printf("\nYou have used all your actions for today. Exiting...");
+			Sleep(3000);
 		    return;
 		}
 		
@@ -541,7 +663,8 @@ void watercrop(const char *plotFile, int *moves){
 		FILE *file;
 		file = fopen(plotFile, "r+");
 	    if (file == NULL) {
-	        perror("Error opening plot file");
+	        perror("Error opening plot file!");
+	        Sleep(3000);
 	        return;
 	    }
 	
@@ -563,21 +686,21 @@ void watercrop(const char *plotFile, int *moves){
 	    int plotchoice;
 	
 	    while(1){
-	        printf("\nChoose a plot to water:");
+	        printf("\nChoose a plot to water: ");
 	    	scanf("%d", &plotchoice);
 			if(plotchoice >= 1 && plotchoice <= 5){
 				if(plotData[plotchoice-1].water_needed <= 0){
-					printf("This plot need no more water\n");
+					printf("This plot needs no more water!\n");
 				}else{
 					plotData[plotchoice-1].water_needed -= 1;
 					break;
 				}
 			}else if(plotchoice == 0){
-				printf("\nGoing back inside\n");
-				Sleep(5000);
+				printf("\nGoing back inside...\n");
+				Sleep(3000);
 				return;
 			}else{
-				printf("Invalid input\n");
+				printf("Invalid input!\n");
 			}	
 		}
 		animationwatering();
@@ -587,7 +710,8 @@ void watercrop(const char *plotFile, int *moves){
 		
 		file = fopen(plotFile, "w");
 	    if (file == NULL) {
-	        perror("Error saving plot file");
+	        perror("Error saving plot file!");
+	        Sleep(3000);
 	        return;
 	    }
 	
@@ -612,8 +736,8 @@ void harvestcrop(const char *plotFile, int *coins, int *moves){
 		printf("\nActions left today: \033[0;34m%d\033[0m\n\n", *moves);
 			
 		if(*moves == 0){
-			printf("\nYou have used all your Actions for today Exiting");
-			Sleep(5000);
+			printf("\nYou have used all your actions for today. Exiting...");
+			Sleep(3000);
 		    return;
 		}
 		
@@ -624,7 +748,8 @@ void harvestcrop(const char *plotFile, int *coins, int *moves){
 		FILE *file;
 		file = fopen(plotFile, "r+");
     	if (file == NULL) {
-        	perror("Error opening plot file");
+        	perror("Error opening plot file!");
+        	Sleep(3000);
         	return;
     	}
 
@@ -644,22 +769,23 @@ void harvestcrop(const char *plotFile, int *coins, int *moves){
 		displayplotcrop(plotFile);
 		int choice;
 		while(1){
-			printf("\nChoose a Plot to harvest(1-5):");
+			printf("\nChoose a Plot to harvest (1-5): ");
 	
 			scanf("%d", &choice);
 			if(choice >= 1 && choice <= 5){
 				if(strcmp(plotData[choice-1].status,"Ready") == 0){
 					break;
 				}else if((strcmp(plotData[choice-1].status,"Ready")) != 0){
-					printf("The plot's seed is not Ready\n");
+					printf("This plot isn't yet ready to be harvested. Choose another plot!\n");
+			        continue;
 				}	
 			}else if(choice == 0){
-				printf("Going back home\n");
-				Sleep(5000);
+				printf("\nGoing back home...\n");
+				Sleep(3000);
 				return;
+			}else{
+				printf("Invalid input!\n");
 			}
-			
-			printf("\nInvalid Input choose another plot\n");
 		}
 		
 
@@ -688,7 +814,8 @@ void harvestcrop(const char *plotFile, int *coins, int *moves){
 	
 		file = fopen(plotFile, "w");
     	if (file == NULL) {
-       		perror("Error saving plot file");
+       		perror("Error saving plot file!");
+       		Sleep(3000);
         	return;
     	}
 
@@ -700,7 +827,6 @@ void harvestcrop(const char *plotFile, int *coins, int *moves){
     	}
     	fclose(file);
     	*moves -= 1;
-    	printf("Moves -1\n");
     	Sleep(5000);
     	
  

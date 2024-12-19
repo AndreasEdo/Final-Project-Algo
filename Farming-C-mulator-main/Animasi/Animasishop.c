@@ -471,7 +471,7 @@ void textline1(){
 }
 
 void textline2(){
-	char text[]="the shop";
+	char text[]="the shop!";
 	int x=59;
 	for(int i=0;i<strlen(text);i++){
 		gotoxy(x,5);
@@ -481,7 +481,7 @@ void textline2(){
 }
 
 void textline3(){
-	char text[]="see anything";
+	char text[]="See anything";
 	int x=57;
 	for(int i=0;i<strlen(text);i++){
 		gotoxy(x,6);
@@ -507,12 +507,12 @@ void textline1f(){
 
 void textline2f(){
 	gotoxy(59,5);
-	printf("the shop");
+	printf("the shop!");
 }
 
 void textline3f(){
 	gotoxy(57,6);
-	printf("see anything");
+	printf("See anything");
 }
 
 void textline4f(){
@@ -606,7 +606,7 @@ void shopkeeperbuy(){
 }
 
 void goodbyetext1(){
-	char text[]="goodbye";
+	char text[]="Goodbye!";
 	int x=59;
 	for(int i=0;i<strlen(text);i++){
 		gotoxy(x,5);
@@ -623,7 +623,7 @@ void goodbye(){
 }
 
 void wronginputtext(){
-	char text[]="wrong input";
+	char text[]="Wrong input!";
 	int x=57;
 	for(int i=0;i<strlen(text);i++){
 		gotoxy(x,5);

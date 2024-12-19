@@ -60,20 +60,24 @@ int epicbox() {
 
 void tipsrandomizer(){
 	srand(time(NULL));
-	int tips = random(1,5);
+	int tips = random(1,7);
 	printf("\n\n");
-	printf("Tips :");
+	printf("Tip: ");
 
 	if(tips == 1){
-		printf("Always type 0 to exit");
+		printf("Always type 0 to exit.");
 	}else if(tips == 2){
-		printf("Prioritize the highest rarity");
+		printf("Prioritize the highest rarity.");
 	}else if(tips == 3){
-		printf("Epic box had the highest chance to obtain legendary crop");
+		printf("The Epic box had the highest chance to obtain a legendary crop.");
 	}else if(tips == 4){
-		printf("Save some money to buy Epic box");
+		printf("Save some money to buy Epic box.");
 	}else if(tips == 5){
-		printf("Remember it's not gambling if it's the only thing you can spend money on");
+		printf("Remember, it's not gambling if it's the only thing you can spend money on.");
+	}else if(tips == 6){
+		printf("Binus @Malang? Mboiss!");
+	}else if(tips == 7){
+		printf("Bambang Cak Telo :)");
 	}
 	printf("\n\n");
 }
@@ -85,7 +89,8 @@ void wateradderrandomizer(const char *plotFile){
 	FILE *file;
 	file = fopen(plotFile, "r+");
     if (file == NULL) {
-        perror("Error opening plot file");
+        perror("Error opening plot file!");
+        Sleep(3000);
         return;
     }
 
@@ -140,7 +145,8 @@ void wateradderrandomizer(const char *plotFile){
 	
 	file = fopen(plotFile, "w");
     if (file == NULL) {
-       	perror("Error saving plot file");
+       	perror("Error saving plot file!");
+       	Sleep(3000);
         return;
     }
 
@@ -158,20 +164,20 @@ void sellrandomizer(int sellcost, int **COINS, int *p){
 	srand(time(NULL));
 	int b = random(1,1000);
 	if(b<40){
-		printf("\nThis Crop is contaminated\n");
+		printf("\nThis Crop is contaminated!\n");
 		sellcost = sellcost/2;
 		**COINS += sellcost;
 	}else if(b>920){
-		printf("\nGod Damn Best crop I have seen in years\n");
+		printf("\nGod Damn Best crop I have seen in years!\n");
 		sellcost = sellcost*2;
 		**COINS += sellcost;
 	}else if(b>800){
-		printf("\nBring me more of this goodie\n");
+		printf("\nBring me more of this goodie!\n");
 		sellcost = sellcost/2*3;
 		**COINS += sellcost;
 	}else if(b>540){
 		sellcost = sellcost/5*5;
-		printf("\nNice crop you got there\n"); 
+		printf("\nNice crop you got there!\n"); 
 		**COINS += sellcost;
 	}else{
 		**COINS += sellcost;

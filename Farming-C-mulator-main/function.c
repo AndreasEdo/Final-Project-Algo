@@ -7,7 +7,8 @@ void plotstatuschanger(const char *plotFile){
 	FILE *file;
 	file = fopen(plotFile, "r+");
     if (file == NULL) {
-        perror("Error opening plot file");
+        perror("Error opening plot file!");
+        Sleep(3000);
         return;
     }
 
@@ -36,7 +37,8 @@ void plotstatuschanger(const char *plotFile){
 	
 	file = fopen(plotFile, "w");
     if (file == NULL) {
-       	perror("Error saving plot file");
+       	perror("Error saving plot file!");
+       	Sleep(3000);
         return;
     }
 
@@ -57,7 +59,8 @@ void plottimeremover(const char *plotFile){
 	FILE *file;
 	file = fopen(plotFile, "r+");
     if (file == NULL) {
-        perror("Error opening plot file");
+        perror("Error opening plot file!");
+        Sleep(3000);
         return;
     }
 
@@ -80,7 +83,8 @@ void plottimeremover(const char *plotFile){
 	}
 	file = fopen(plotFile, "w");
     if (file == NULL) {
-       	perror("Error saving plot file");
+       	perror("Error saving plot file!");
+       	Sleep(3000);
         return;
     }
 
@@ -109,7 +113,8 @@ void plotclear(const char *plotFile){
 	plot plotData[5];
 	file = fopen(plotFile, "r+");
 	if (file == NULL) {
-        perror("Error opening plot file");
+        perror("Error opening plot file!");
+        Sleep(3000);
         return;
     }
 
@@ -136,7 +141,8 @@ void plotclear(const char *plotFile){
 	
 	file = fopen(plotFile, "w");
     if (file == NULL) {
-       	perror("Error saving plot file");
+       	perror("Error saving plot file!");
+       	Sleep(3000);
         return;
     }
 

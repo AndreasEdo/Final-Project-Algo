@@ -16,7 +16,7 @@
 #endif
 
 
-
+#define STARTING_COINS 100
 #define SEASON_DAYS 90
 #define HIGHSCORE "highscore.txt"
 

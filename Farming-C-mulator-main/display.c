@@ -1,10 +1,11 @@
 #include "struct.h"
 
 void displayplotcrop(const char *plotFile) {
-    printf("\n----PLOTS STATUS----\n");
+    printf("\n=== PLOTS STATUS ===\n");
     FILE *file = fopen(plotFile, "r");
     if (file == NULL) {
-        perror("Error opening file");
+        perror("Error opening file!");
+        Sleep(3000);
         return;
     }
 
@@ -14,7 +15,7 @@ void displayplotcrop(const char *plotFile) {
 	
     // Print table header
     printf("\n%-5s%-15s%-20s%-10s%-15s%-15s\n", "Num", "Status", "Crop Name", "Rarity", "Water Needed", "Time to Harvest");
-    printf("--------------------------------------------------------------------------------------------\n");
+    printf("--------------------------------------------------------------------------------\n");
 	
     // Skip header line
     fgets(line, sizeof(line), file);
@@ -38,16 +39,17 @@ void displayplotcrop(const char *plotFile) {
 void displayinventory(const char *inventoryFile) {
     FILE *file = fopen(inventoryFile, "r");
     if (file == NULL) {
-        perror("Error opening file");
+        perror("Error opening file!");
+        Sleep(3000);
         return;
     }
-	printf("-------INVENTORY-------");
+	printf("=== INVENTORY ===\n");
     Inventory inventory;
     char line[MAX_LINE_LENGTH];
 
     // Print table header
     printf("\n%-20s%-10s%-10s\n", "Name", "Rarity", "Quantity");
-    printf("------------------------------------------\n");
+    printf("--------------------------------------\n");
 
     // Skip header line
     fgets(line, sizeof(line), file);
