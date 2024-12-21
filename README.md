@@ -9,7 +9,9 @@ BINUS @Malang
 
 2802561500 - WA ODE ALILAH FEBRIYANTI RAJAB
 
+
 HOW TO RUN
+
 1.Enter Farming-C-mulator-main folder
 
 2.Look for Farming simulator.c
